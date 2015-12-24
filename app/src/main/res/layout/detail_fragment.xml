@@ -1,55 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="4dp"
+    android:background="@drawable/list_item"
+    android:id="@+id/match_content_description">
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:paddingTop="5dp"
+        >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/test_text"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/League"
-            android:id="@+id/league_textview"/>
+            android:orientation="vertical"
+            android:focusable="false">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/home_crest"
+                android:contentDescription="@string/team_crest_home"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="@dimen/TeamNames"
+                android:gravity="center"
+                android:text="@string/test_text"
+                android:id="@+id/home_name"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/test_text"
-            android:textSize="@dimen/League"
-            android:textColor="@android:color/black"
-            android:id="@+id/matchday_textview"/>
+            android:orientation="vertical"
+            android:focusable="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/test_text"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="@dimen/Score"
+                android:id="@+id/score_textview"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/test_text"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/date_textview" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:focusable="false">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/away_crest"
+                android:contentDescription="@string/team_crest_away"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/test_text"
+                android:textSize="@dimen/TeamNames"
+                android:id="@+id/away_name"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
 
-        <Button
-        android:layout_width="match_parent"
+
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:text="@string/test_text"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/League"
+        android:id="@+id/league_textview"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:text="@string/test_text"
+        android:textSize="@dimen/League"
+        android:textColor="@android:color/black"
+        android:id="@+id/matchday_textview"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/share_text"
         android:id="@+id/share_button"
         android:drawableLeft="@android:drawable/ic_menu_share"
-            android:drawableStart="@android:drawable/ic_menu_share"
-        android:paddingLeft="120dp"
-            android:paddingStart="120dp"
-        android:paddingRight="120dp"
-            android:paddingEnd="120dp"/>
-        <!--android:contentDescription="@string/share_button_contentdescription"-->
+        android:drawableStart="@android:drawable/ic_menu_share"
+        android:layout_gravity="center_horizontal" />
 
-    </FrameLayout>
+    <!--android:paddingLeft="120dp"-->
+    <!--android:paddingStart="120dp"-->
+    <!--android:paddingRight="120dp"-->
+    <!--android:paddingEnd="120dp"/>-->
+    <!--android:contentDescription="@string/share_button_contentdescription"-->
 
 </LinearLayout>
+
+

@@ -65,7 +65,7 @@
                 android:text="@string/test_text"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:id="@+id/data_textview" />
+                android:id="@+id/date_textview" />
 
         </LinearLayout>
 
@@ -100,40 +100,40 @@
 
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:text="@string/test_text"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/League"
-        android:id="@+id/league_textview"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="@string/test_text"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:textSize="@dimen/League"-->
+        <!--android:id="@+id/league_textview"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:visibility="gone"/>-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:text="@string/test_text"
-        android:textSize="@dimen/League"
-        android:textColor="@android:color/black"
-        android:id="@+id/matchday_textview"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="@string/test_text"-->
+        <!--android:textSize="@dimen/League"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:id="@+id/matchday_textview"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:visibility="gone"/>-->
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/share_text"
-        android:id="@+id/share_button"
-        android:drawableLeft="@android:drawable/ic_menu_share"
-        android:drawableStart="@android:drawable/ic_menu_share"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"/>
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/share_text"-->
+        <!--android:id="@+id/share_button"-->
+        <!--android:drawableLeft="@android:drawable/ic_menu_share"-->
+        <!--android:drawableStart="@android:drawable/ic_menu_share"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:visibility="gone"/>-->
 
         <!--android:paddingLeft="120dp"-->
         <!--android:paddingStart="120dp"-->

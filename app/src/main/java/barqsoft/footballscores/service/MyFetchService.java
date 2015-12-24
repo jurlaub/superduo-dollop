@@ -196,6 +196,7 @@ public class MyFetchService extends IntentService {
                 League = League.replace(SEASON_LINK, "");
 
 
+
                 //This if statement controls which leagues we're interested in the data from.
                 //add leagues here in order to have them be added to the DB.
                 // If you are finding no data in the app, check that this contains all the leagues.

@@ -27,6 +27,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
     public static final int SCORES_LOADER = 0;
 
+
     // Removed from being a List, apparently set up this way to facilitate the CursorLoader.
     private String mFragmentDate;
     private String mPageTitle;
@@ -97,23 +98,32 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         mScoresList = (ListView) mRootView.findViewById(R.id.scores_list);
 
 
+
+
         // set content description for the page and use the page names.
         String pageContentDescription = new StringBuilder(getString(R.string.page_day_contentdescription)).append(' ')
                 .append(mPageTitle).toString();
         mRootView.setContentDescription(pageContentDescription);
-        mRootView.setFocusable(true);
+//        mRootView.setFocusable(true);
         Log.v(LOG_TAG, "pageContentDescription: " + pageContentDescription);
+
+
 
 
         mAdapter = new ScoresAdapter(getActivity(), null, 0);
 
+        // set empty view if no data
         TextView emptyView = (TextView) mRootView.findViewById(R.id.scores_list_empty);
         mScoresList.setEmptyView(emptyView);
 
+
+
         mScoresList.setAdapter(mAdapter);
 
-        getLoaderManager().initLoader(SCORES_LOADER, null, this);
+//        getLoaderManager().initLoader(SCORES_LOADER, null, this);
+        Log.v(LOG_TAG, "before mAdapter.mDetail_match_id" + mAdapter.mDetail_match_id);
         mAdapter.mDetail_match_id = MainActivity.selected_match_id;
+
 
         mScoresList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -121,17 +131,33 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Log.v(LOG_TAG, "position " + position + " selected");
-                ViewHolder selected = (ViewHolder) view.getTag();
-                Log.v(LOG_TAG, "ViewHolder tag: " + selected.match_id);
+
+//                ViewHolder selected = (ViewHolder) view.getTag();
+//                Log.v(LOG_TAG, "ViewHolder tag: " + selected.match_id);
 
 //                mAdapter.mDetail_match_id = selected.match_id;
-                mAdapter.mDetail_match_id = position;
+
+                // onClick changes mDetail_match_id. This instructs ScoresAdapter to toggle between
+                // the two views.
+                if (mAdapter.mSelectView == position) {
+                    mAdapter.mSelectView = -1;
+                    Log.v(LOG_TAG, "mAdapter.mSelectView should be -1 set to " + mAdapter.mSelectView);
+
+                } else {
+                    mAdapter.mSelectView = position;
+                    Log.v(LOG_TAG, "mAdapter.mSelectView should be " + position + " set to " + mAdapter.mSelectView);
+                    Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                    Log.v(LOG_TAG, cursor.getString(COL_HOME) + " vs " + cursor.getString(COL_AWAY) );
+                }
+
+
 //
-                Log.v(LOG_TAG, "mAdapter.matchID: " + mAdapter.mDetail_match_id + " selectedid: " + selected.match_id + " position: " + position);
+//                Log.v(LOG_TAG, "mAdapter.mDetail_match_id: " + mAdapter.mDetail_match_id + " selected id: " + selected.match_id + " position: " + position);
 //                // this is an attempt to save the state across lifecycles.
 //                MainActivity.selected_match_id = (int) selected.match_id;
 //
-                mAdapter.notifyDataSetChanged();
+//                mAdapter.notifyDataSetChanged();
+                restartLoader();
             }
         });
         return mRootView;
@@ -148,14 +174,29 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        Log.v(LOG_TAG, "onActivityCreated - just before initializing the loaderManager");
+        getLoaderManager().initLoader(SCORES_LOADER, null, this);
+    }
+
+
+    void restartLoader() {
+
+
+        Log.v(LOG_TAG, "restartLoader restarting Loader");
+        getLoaderManager().restartLoader(SCORES_LOADER, null, this);
+
+    }
+
+
+    @Override
     public void onResume(){
         super.onResume();
+
         Log.v(LOG_TAG, "onResume date: " + mFragmentDate);
-        if (this.isVisible()) {
-            Log.v(LOG_TAG, "onResume is visible date: " + mFragmentDate);
-        } else {
-            Log.v(LOG_TAG, "onResume not visible date: " + mFragmentDate);
-        }
+        restartLoader();
 
     }
 
@@ -176,14 +217,18 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
             cursor.moveToNext();
         }
         */
-        Log.v(LOG_TAG, "loadFinished. Cursor: " + cursor.getCount());
+        Log.v(LOG_TAG, "loadFinished. Cursor count: " + cursor.getCount());
 
-        int i = 0;
+
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            i++;
+          Log.v("Cursor review", "Position: " + cursor.getPosition() + " " + cursor.getString(COL_HOME) + " vs " + cursor.getString(COL_AWAY));
             cursor.moveToNext();
         }
+
+
+        cursor.moveToFirst();
+
         //Log.v(FetchScoreTask.LOG_TAG,"Loader query: " + String.valueOf(i));
         mAdapter.swapCursor(cursor);
         //mAdapter.notifyDataSetChanged();
@@ -202,7 +247,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
 
         if (mAdapter.getCount() == 0) {
-            Log.v(LOG_TAG, "updateEmptyView mAdapter = 0");
+            Log.v(LOG_TAG, "updateEmptyView mAdapter.count = 0");
             TextView emptyView = (TextView) getView().findViewById(R.id.scores_list_empty);
 
             if (emptyView != null) {
