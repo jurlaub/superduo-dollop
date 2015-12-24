@@ -81,7 +81,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         score_list.setAdapter(mAdapter);
 
         getLoaderManager().initLoader(SCORES_LOADER, null, this);
-        mAdapter.detail_match_id = MainActivity.selected_match_id;
+        mAdapter.mDetail_match_id = MainActivity.selected_match_id;
 
         score_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -92,7 +92,9 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
                 ViewHolder selected = (ViewHolder) view.getTag();
                 Log.v(LOG_TAG, "ViewHolder tag: " + selected.toString());
 
-                mAdapter.detail_match_id = selected.match_id;
+                mAdapter.mDetail_match_id = selected.match_id;
+
+                // this is an attempt to save the state across lifecycles.
                 MainActivity.selected_match_id = (int) selected.match_id;
 
                 mAdapter.notifyDataSetChanged();
@@ -151,13 +153,14 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         //mAdapter.notifyDataSetChanged();
 
 
+
         // added empty view update
         updateEmptyView();
 
     }
 
 
-    // Added information for users
+    // Added information for user when day is empty
     // this is the place to dynamically change the empty list text box to display to users.
     private void updateEmptyView(){
 

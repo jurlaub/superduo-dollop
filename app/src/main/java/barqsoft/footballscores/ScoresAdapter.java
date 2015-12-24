@@ -25,7 +25,8 @@ public class ScoresAdapter extends CursorAdapter {
     public static final int COL_MATCHDAY = 9;
     public static final int COL_ID = 8;
     public static final int COL_MATCHTIME = 2;
-    public double detail_match_id = 0;
+
+    public double mDetail_match_id = -1;
 
     private String FOOTBALL_SCORES_HASHTAG = "#Football_Scores";
 
@@ -93,29 +94,76 @@ public class ScoresAdapter extends CursorAdapter {
 
 
         //Log.v(FetchScoreTask.LOG_TAG,mHolder.home_name.getText() + " Vs. " + mHolder.away_name.getText() +" id " + String.valueOf(mHolder.match_id));
-        //Log.v(FetchScoreTask.LOG_TAG,String.valueOf(detail_match_id));
+        //Log.v(FetchScoreTask.LOG_TAG,String.valueOf(mDetail_match_id));
 
 //        LayoutInflater vi = (LayoutInflater) context.getApplicationContext()
 //                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        View v = vi.inflate(R.layout.detail_fragment, null);
 //        ViewGroup container = (ViewGroup) view.findViewById(R.id.details_fragment_container);
 
-        mHolder.mMatchday.setText(Utilies.getMatchDay(cursor.getInt(COL_MATCHDAY), cursor.getInt(COL_LEAGUE)));
-        mHolder.mLeague.setText(Utilies.getLeague(cursor.getInt(COL_LEAGUE)));
 
-        mHolder.mShareButton.setOnClickListener(new View.OnClickListener() {
+        if (mHolder.match_id == mDetail_match_id){
+            Log.v(LOG_TAG, "an individual match was selected");
 
-            @Override
-            public void onClick(View v) {
-                //add Share Action
-                context.startActivity(createShareForecastIntent(mHolder.home_name.getText() + " "
-                        + mHolder.mScore.getText() + " " + mHolder.away_name.getText() + " "));
+
+            // if not visible, element should appear. If visible, element should be gone
+            if(mHolder.mLeague.getVisibility() == view.GONE ||mHolder.mLeague.getVisibility() == view.INVISIBLE ) {
+
+                mHolder.mLeague.setVisibility(view.VISIBLE);
+                mHolder.mLeague.setText(Utilies.getLeague(cursor.getInt(COL_LEAGUE)));
+
+
+            } else {
+                mHolder.mLeague.setVisibility(view.GONE);
             }
-        });
 
 
 
-//        if (mHolder.match_id == detail_match_id) {
+            // if not visible, element should appear. If visible, element should be gone
+            if(mHolder.mMatchday.getVisibility() == view.GONE ||mHolder.mMatchday.getVisibility() == view.INVISIBLE ) {
+
+                mHolder.mMatchday.setVisibility(view.VISIBLE);
+                mHolder.mMatchday.setText(Utilies.getMatchDay(cursor.getInt(COL_MATCHDAY), cursor.getInt(COL_LEAGUE)));
+
+
+            } else {
+                mHolder.mMatchday.setVisibility(view.GONE);
+            }
+
+            // if not visible, element should appear. If visible, element should be gone
+            if(mHolder.mShareButton.getVisibility() == view.GONE ||mHolder.mShareButton.getVisibility() == view.INVISIBLE ) {
+
+                mHolder.mShareButton.setVisibility(view.VISIBLE);
+                mHolder.mShareButton.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        //add Share Action
+                        context.startActivity(createShareForecastIntent(mHolder.home_name.getText() + " "
+                                + mHolder.mScore.getText() + " " + mHolder.away_name.getText() + " "));
+                    }
+                });
+
+
+            } else {
+                mHolder.mShareButton.setVisibility(view.GONE);
+            }
+
+
+            // reset the variable
+            mDetail_match_id = -1;
+
+        }
+
+
+
+
+
+
+
+
+
+//        if (mHolder.match_id == mDetail_match_id) {
 //            //Log.v(FetchScoreTask.LOG_TAG,"will insert extraView");
 //
 //            container.addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));

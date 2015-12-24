@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:focusable="false">
+        >
 
         <LinearLayout
             android:layout_width="0dp"
@@ -114,7 +114,8 @@
         android:textSize="@dimen/League"
         android:id="@+id/league_textview"
         android:layout_gravity="center_horizontal"
-        android:focusable="true"/>
+        android:focusable="true"
+        android:visibility="gone"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -126,7 +127,8 @@
         android:textColor="@android:color/black"
         android:id="@+id/matchday_textview"
         android:layout_gravity="center_horizontal"
-        android:focusable="true"/>
+        android:focusable="true"
+        android:visibility="gone"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -136,7 +138,9 @@
         android:id="@+id/share_button"
         android:drawableLeft="@android:drawable/ic_menu_share"
         android:drawableStart="@android:drawable/ic_menu_share"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"/>
+
         <!--android:paddingLeft="120dp"-->
         <!--android:paddingStart="120dp"-->
         <!--android:paddingRight="120dp"-->
