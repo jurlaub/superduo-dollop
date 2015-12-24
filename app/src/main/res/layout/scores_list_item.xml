@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:elevation="4dp"
     android:background="@drawable/list_item"
-    android:focusable="true"
     android:id="@+id/match_content_description">
 
     <LinearLayout
@@ -27,7 +26,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/home_crest"
-                android:focusable="true"
                 android:contentDescription="@string/team_crest_home"/>
 
             <TextView
@@ -38,7 +36,7 @@
                 android:gravity="center"
                 android:text="@string/test_text"
                 android:id="@+id/home_name"
-                android:focusable="true"/>
+                />
 
         </LinearLayout>
 
@@ -58,7 +56,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/Score"
                 android:id="@+id/score_textview"
-                android:focusable="true"/>
+               />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,8 +65,7 @@
                 android:text="@string/test_text"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:id="@+id/data_textview"
-                android:focusable="true"/>
+                android:id="@+id/data_textview" />
 
         </LinearLayout>
 
@@ -84,7 +81,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/away_crest"
-                android:focusable="true"
                 android:contentDescription="@string/team_crest_away"/>
 
             <TextView
@@ -95,7 +91,7 @@
                 android:text="@string/test_text"
                 android:textSize="@dimen/TeamNames"
                 android:id="@+id/away_name"
-                android:focusable="true"/>
+                />
 
         </LinearLayout>
 
@@ -114,7 +110,6 @@
         android:textSize="@dimen/League"
         android:id="@+id/league_textview"
         android:layout_gravity="center_horizontal"
-        android:focusable="true"
         android:visibility="gone"/>
 
     <TextView
@@ -127,7 +122,6 @@
         android:textColor="@android:color/black"
         android:id="@+id/matchday_textview"
         android:layout_gravity="center_horizontal"
-        android:focusable="true"
         android:visibility="gone"/>
 
     <Button

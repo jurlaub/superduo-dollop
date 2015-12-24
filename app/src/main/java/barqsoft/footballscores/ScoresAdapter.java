@@ -16,17 +16,10 @@ import android.widget.LinearLayout;
 public class ScoresAdapter extends CursorAdapter {
     private final String LOG_TAG = ScoresAdapter.class.getSimpleName();
 
-    public static final int COL_HOME = 3;
-    public static final int COL_AWAY = 4;
-    public static final int COL_HOME_GOALS = 6;
-    public static final int COL_AWAY_GOALS = 7;
-    public static final int COL_DATE = 1;
-    public static final int COL_LEAGUE = 5;
-    public static final int COL_MATCHDAY = 9;
-    public static final int COL_ID = 8;
-    public static final int COL_MATCHTIME = 2;
 
-    public double mDetail_match_id = -1;
+
+
+    public int mDetail_match_id = -1;
 
     private String FOOTBALL_SCORES_HASHTAG = "#Football_Scores";
 
@@ -54,38 +47,39 @@ public class ScoresAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
 
+        Log.v(LOG_TAG, "Cursor position: " + cursor.getPosition() + " matchID: " + mDetail_match_id + " mViewHolderID: " + mHolder.match_id);
 
         //        final ViewHolder mHolder = (ViewHolder) view.getTag();
-        mHolder.home_name.setText(cursor.getString(COL_HOME));
-        mHolder.away_name.setText(cursor.getString(COL_AWAY));
+        mHolder.home_name.setText(cursor.getString(MainScreenFragment.COL_HOME));
+        mHolder.away_name.setText(cursor.getString(MainScreenFragment.COL_AWAY));
 
-        mHolder.date.setText(cursor.getString(COL_MATCHTIME));
-        mHolder.mScore.setText(Utilies.getScores(cursor.getInt(COL_HOME_GOALS), cursor.getInt(COL_AWAY_GOALS)));
+        mHolder.date.setText(cursor.getString(MainScreenFragment.COL_MATCHTIME));
+        mHolder.mScore.setText(Utilies.getScores(cursor.getInt(MainScreenFragment.COL_HOME_GOALS), cursor.getInt(MainScreenFragment.COL_AWAY_GOALS)));
 
         // set contextual ContentDescription for the score
-        String tmpMessage = new StringBuilder(cursor.getString(COL_HOME)).append(' ')
+        String tmpMessage = new StringBuilder(cursor.getString(MainScreenFragment.COL_HOME)).append(' ')
                     .append(context.getString(R.string.team_score_contentdescriptions))
-                    .append(cursor.getInt(COL_HOME_GOALS))
+                    .append(cursor.getInt(MainScreenFragment.COL_HOME_GOALS))
                     .append(' ').append('-').append(' ')
-                    .append(cursor.getString(COL_AWAY)).append(' ')
+                    .append(cursor.getString(MainScreenFragment.COL_AWAY)).append(' ')
                     .append(context.getString(R.string.team_score_contentdescriptions))
-                    .append(cursor.getInt(COL_AWAY_GOALS))
+                    .append(cursor.getInt(MainScreenFragment.COL_AWAY_GOALS))
                     .toString();
 
         mHolder.mScore.setContentDescription(tmpMessage);
 
-        mHolder.match_id = cursor.getDouble(COL_ID);
+        mHolder.match_id = cursor.getDouble(MainScreenFragment.COL_MATCH_ID);
 
-        mHolder.home_crest.setImageResource(Utilies.getTeamCrestByTeamName(cursor.getString(COL_HOME)));
-        mHolder.away_crest.setImageResource(Utilies.getTeamCrestByTeamName(cursor.getString(COL_AWAY)));
+        mHolder.home_crest.setImageResource(Utilies.getTeamCrestByTeamName(cursor.getString(MainScreenFragment.COL_HOME)));
+        mHolder.away_crest.setImageResource(Utilies.getTeamCrestByTeamName(cursor.getString(MainScreenFragment.COL_AWAY)));
 
 
 
         // set layoutButton Content Description
         String matchButtonMessage = new StringBuilder(context.getString(R.string.match_description)).append(' ')
-                .append(cursor.getString(COL_HOME)).append(' ')
+                .append(cursor.getString(MainScreenFragment.COL_HOME)).append(' ')
                 .append(context.getString(R.string.match_conjunction)).append(' ')
-                .append(cursor.getString(COL_AWAY)).toString();
+                .append(cursor.getString(MainScreenFragment.COL_AWAY)).toString();
 
 
         LinearLayout layoutButton = (LinearLayout) view.findViewById(R.id.match_content_description);
@@ -110,7 +104,7 @@ public class ScoresAdapter extends CursorAdapter {
             if(mHolder.mLeague.getVisibility() == view.GONE ||mHolder.mLeague.getVisibility() == view.INVISIBLE ) {
 
                 mHolder.mLeague.setVisibility(view.VISIBLE);
-                mHolder.mLeague.setText(Utilies.getLeague(cursor.getInt(COL_LEAGUE)));
+                mHolder.mLeague.setText(Utilies.getLeague(cursor.getInt(MainScreenFragment.COL_LEAGUE)));
 
 
             } else {
@@ -123,7 +117,7 @@ public class ScoresAdapter extends CursorAdapter {
             if(mHolder.mMatchday.getVisibility() == view.GONE ||mHolder.mMatchday.getVisibility() == view.INVISIBLE ) {
 
                 mHolder.mMatchday.setVisibility(view.VISIBLE);
-                mHolder.mMatchday.setText(Utilies.getMatchDay(cursor.getInt(COL_MATCHDAY), cursor.getInt(COL_LEAGUE)));
+                mHolder.mMatchday.setText(Utilies.getMatchDay(cursor.getInt(MainScreenFragment.COL_MATCHDAY), cursor.getInt(MainScreenFragment.COL_LEAGUE)));
 
 
             } else {
@@ -150,8 +144,10 @@ public class ScoresAdapter extends CursorAdapter {
             }
 
 
+            view.invalidate();
+
             // reset the variable
-            mDetail_match_id = -1;
+           // mDetail_match_id = -1;
 
         }
 

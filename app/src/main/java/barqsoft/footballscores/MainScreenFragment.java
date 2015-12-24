@@ -35,6 +35,36 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
     private int last_selected_item = -1;
 
+    // -----  SQLite Query Columns -------------------
+    private static final String[] MATCHDETAILS_COLUMNS = {
+            DatabaseContract.ScoresTable._ID,
+            DatabaseContract.ScoresTable.DATE_COL,
+            DatabaseContract.ScoresTable.TIME_COL,
+            DatabaseContract.ScoresTable.HOME_COL,
+            DatabaseContract.ScoresTable.AWAY_COL,
+            DatabaseContract.ScoresTable.LEAGUE_COL,
+            DatabaseContract.ScoresTable.HOME_GOALS_COL,
+            DatabaseContract.ScoresTable.AWAY_GOALS_COL,
+            DatabaseContract.ScoresTable.MATCH_ID,
+            DatabaseContract.ScoresTable.MATCH_DAY
+
+    };
+
+    // ---!!--- must change if MATCHDETAILS_COLUMNS changes -----!!---
+    public static final int _ID = 0;
+    public static final int COL_DATE = 1;
+    public static final int COL_MATCHTIME = 2;
+    public static final int COL_HOME = 3;
+    public static final int COL_AWAY = 4;
+    public static final int COL_LEAGUE = 5;
+    public static final int COL_HOME_GOALS = 6;
+    public static final int COL_AWAY_GOALS = 7;
+    public static final int COL_MATCH_ID = 8;                 //Match ID
+    public static final int COL_MATCHDAY = 9;
+
+
+
+
     public MainScreenFragment() {
     }
 
@@ -92,14 +122,16 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
                 Log.v(LOG_TAG, "position " + position + " selected");
                 ViewHolder selected = (ViewHolder) view.getTag();
-                Log.v(LOG_TAG, "ViewHolder tag: " + selected.toString());
+                Log.v(LOG_TAG, "ViewHolder tag: " + selected.match_id);
 
 //                mAdapter.mDetail_match_id = selected.match_id;
+                mAdapter.mDetail_match_id = position;
 //
+                Log.v(LOG_TAG, "mAdapter.matchID: " + mAdapter.mDetail_match_id + " selectedid: " + selected.match_id + " position: " + position);
 //                // this is an attempt to save the state across lifecycles.
 //                MainActivity.selected_match_id = (int) selected.match_id;
 //
-//                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
             }
         });
         return mRootView;
@@ -109,8 +141,10 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // changed this from using mFragmentDate to new String[] {mFragmentDate}
         return new CursorLoader(getActivity(), DatabaseContract.ScoresTable.buildScoreWithDate(),
-                null, null, new String[] {mFragmentDate}, null);
+                MATCHDETAILS_COLUMNS, null, new String[] {mFragmentDate}, null);
+
     }
+
 
 
     @Override
