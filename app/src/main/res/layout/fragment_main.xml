@@ -27,6 +27,7 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="15sp"
             />
+
         <TextView
             android:id="@+id/scores_list_empty"
             android:layout_width="match_parent"

@@ -1,9 +1,13 @@
 package barqsoft.footballscores;
 
+import android.util.Log;
+
 /**
  * Created by yehya khaled on 3/3/2015.
  */
 public class Utilies {
+
+    public static final String LOG_TAG = Utilies.class.getSimpleName();
 
     public static final int SERIE_A = 357;
     public static final int PREMIER_LEAGUE = 354;
@@ -69,10 +73,11 @@ public class Utilies {
         if (team_name == null) {
             return R.drawable.no_icon;
         }
+        Log.v(LOG_TAG, "Team Name: " + team_name);
         switch (team_name) { //This is the set of icons that are currently in the app. Feel free to find and add more
             //as you go.
             case "Arsenal London FC":
-            case "Arsenal":
+            case "Arsenal FC":
                 return R.drawable.arsenal;
 
             case "Aston Villa FC":

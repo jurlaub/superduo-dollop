@@ -31,6 +31,8 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     private String mFragmentDate;
     private String mPageTitle;
     private View mRootView;
+    private ListView mScoresList;
+
     private int last_selected_item = -1;
 
     public MainScreenFragment() {
@@ -62,7 +64,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         Log.v(LOG_TAG, "onCreateView date:" + mFragmentDate);
 
         mRootView = inflater.inflate(R.layout.fragment_main, container, false);
-        ListView score_list = (ListView) mRootView.findViewById(R.id.scores_list);
+        mScoresList = (ListView) mRootView.findViewById(R.id.scores_list);
 
 
         // set content description for the page and use the page names.
@@ -76,14 +78,14 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         mAdapter = new ScoresAdapter(getActivity(), null, 0);
 
         TextView emptyView = (TextView) mRootView.findViewById(R.id.scores_list_empty);
-        score_list.setEmptyView(emptyView);
+        mScoresList.setEmptyView(emptyView);
 
-        score_list.setAdapter(mAdapter);
+        mScoresList.setAdapter(mAdapter);
 
         getLoaderManager().initLoader(SCORES_LOADER, null, this);
         mAdapter.mDetail_match_id = MainActivity.selected_match_id;
 
-        score_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mScoresList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -92,12 +94,12 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
                 ViewHolder selected = (ViewHolder) view.getTag();
                 Log.v(LOG_TAG, "ViewHolder tag: " + selected.toString());
 
-                mAdapter.mDetail_match_id = selected.match_id;
-
-                // this is an attempt to save the state across lifecycles.
-                MainActivity.selected_match_id = (int) selected.match_id;
-
-                mAdapter.notifyDataSetChanged();
+//                mAdapter.mDetail_match_id = selected.match_id;
+//
+//                // this is an attempt to save the state across lifecycles.
+//                MainActivity.selected_match_id = (int) selected.match_id;
+//
+//                mAdapter.notifyDataSetChanged();
             }
         });
         return mRootView;
