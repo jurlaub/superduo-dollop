@@ -204,9 +204,9 @@ public class MyFetchService extends IntentService {
                         League.equals(SERIE_A) ||
                         League.equals(BUNDESLIGA1) ||
                         League.equals(BUNDESLIGA2) ||
-                        League.equals(PRIMERA_DIVISION) ||
-                        League.equals(DUMMYLEAGUE)) {
-
+                        League.equals(PRIMERA_DIVISION))  {
+//                    ||
+//                    League.equals(DUMMYLEAGUE))
 
                     match_id = match_data.getJSONObject(LINKS).getJSONObject(SELF).getString("href");
                     match_id = match_id.replace(MATCH_LINK, "");
