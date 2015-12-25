@@ -42,6 +42,8 @@ public class PagerFragment extends Fragment {
             // set title page for fragment layout content description
             mViewFragments[i].setPageTitle(mPagerAdapter.getPageTitle(i).toString());
 //            mViewFragments[i].getView().setContentDescription();
+
+
         }
 
         mPagerHandler.setAdapter(mPagerAdapter);

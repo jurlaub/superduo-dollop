@@ -27,7 +27,10 @@ public class ScoresAdapter extends CursorAdapter {
     private static final int VIEW_TYPE_COUNT = 2;
 
     public int mDetail_match_id = 0;
+
+
     public int mSelectView = -1;
+    private String mStringDate;
 
 
 
@@ -35,6 +38,9 @@ public class ScoresAdapter extends CursorAdapter {
 
     private Context mContext;
 //    private ViewHolder mHolder;
+    private MainScreenFragment mMainScreenFragment;
+
+
 
     public static class ViewHolder {
         public TextView home_name;
@@ -53,7 +59,7 @@ public class ScoresAdapter extends CursorAdapter {
             home_crest = (ImageView) view.findViewById(R.id.home_crest);
             away_crest = (ImageView) view.findViewById(R.id.away_crest);
 
-            Log.v("ViewHolder", "view id = " + view.getId());
+            Log.v("ViewHolder", "view id = " + view.getId() + " Date: " + date);
 
 
         }
@@ -66,9 +72,12 @@ public class ScoresAdapter extends CursorAdapter {
 
 
 
-    public ScoresAdapter(Context context, Cursor cursor, int flags) {
+    public ScoresAdapter(Context context, Cursor cursor, int flags, String stringDate, MainScreenFragment mainScreenFragment) {
         super(context, cursor, flags);
         this.mContext = context;
+
+        this.mStringDate = stringDate;
+        this.mMainScreenFragment = mainScreenFragment;
 
 
         Log.v(LOG_TAG, "mSelectView: " + mSelectView);
@@ -132,7 +141,7 @@ public class ScoresAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, final Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, final Cursor cursor) {
 
 //        ViewHolder viewHolder = (ViewHolder) view.getTag();
         int viewType = getItemViewType(cursor.getPosition());
@@ -190,7 +199,20 @@ public class ScoresAdapter extends CursorAdapter {
                                 + viewHolder.mScore.getText() + " " + viewHolder.away_name.getText() + " "));
                     }
                 });
+//
 
+
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.v(LOG_TAG, "inside the detailLayout view");
+
+                        mSelectView = -1;
+
+                        // reset the data
+                        mMainScreenFragment.refreshData();
+                    }
+                });
 
 
                 break;

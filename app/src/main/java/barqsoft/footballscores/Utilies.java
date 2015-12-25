@@ -1,5 +1,8 @@
 package barqsoft.footballscores;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -111,7 +114,7 @@ public class Utilies {
             case "Southampton FC":
                 return R.drawable.southampton_fc;
 
-
+            case "Swansea City FC":
             case "Swansea City":
                 return R.drawable.swansea_city_afc;
 
@@ -121,6 +124,8 @@ public class Utilies {
                 return R.drawable.west_ham;
             case "Tottenham Hotspur FC":
                 return R.drawable.tottenham_hotspur;
+
+            case "West Bromwich Albion FC":
             case "West Bromwich Albion":
                 return R.drawable.west_bromwich_albion_hd_logo;
             case "Sunderland AFC":
@@ -131,4 +136,27 @@ public class Utilies {
                 return R.drawable.no_icon;
         }
     }
+
+
+    public static void setMatchDetailViewStatusPreference(Context context, int matchEntry, String fragmentDate) {
+        Log.v(LOG_TAG, "matchDetail set to " + matchEntry);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+
+        editor.putInt(fragmentDate, matchEntry);
+        editor.apply();
+
+    }
+
+    public static int getMatchDetailViewStatusPreference(Context context, String fragmentDate) {
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        int matchEntry = sp.getInt(fragmentDate, MainScreenFragment.DEFAULT_DETAIL_VIEW);
+
+        return matchEntry;
+    }
+
+
+
 }

@@ -1,8 +1,10 @@
 package barqsoft.footballscores;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -20,12 +22,16 @@ import barqsoft.footballscores.service.MyFetchService;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String LOG_TAG = MainScreenFragment.class.getSimpleName();
     public ScoresAdapter mAdapter;
 
     public static final int SCORES_LOADER = 0;
+
+    private SharedPreferences.OnSharedPreferenceChangeListener mPreferenceListener;
+    private SharedPreferences mPreference;
+    public static final int DEFAULT_DETAIL_VIEW = -1;
 
 
     // Removed from being a List, apparently set up this way to facilitate the CursorLoader.
@@ -62,6 +68,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public static final int COL_AWAY_GOALS = 7;
     public static final int COL_MATCH_ID = 8;                 //Match ID
     public static final int COL_MATCHDAY = 9;
+
 
 
 
@@ -110,7 +117,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
 
 
-        mAdapter = new ScoresAdapter(getActivity(), null, 0);
+        mAdapter = new ScoresAdapter(getActivity(), null, 0, mFragmentDate, this);
 
         // set empty view if no data
         TextView emptyView = (TextView) mRootView.findViewById(R.id.scores_list_empty);
@@ -156,10 +163,17 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 //                // this is an attempt to save the state across lifecycles.
 //                MainActivity.selected_match_id = (int) selected.match_id;
 //
-//                mAdapter.notifyDataSetChanged();
-                restartLoader();
+                mAdapter.notifyDataSetChanged();
+//                restartLoader();
             }
+
         });
+
+
+
+
+
+
         return mRootView;
     }
 
@@ -182,18 +196,15 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     }
 
 
-    void restartLoader() {
 
-
-        Log.v(LOG_TAG, "restartLoader restarting Loader");
-        getLoaderManager().restartLoader(SCORES_LOADER, null, this);
-
-    }
 
 
     @Override
     public void onResume(){
         super.onResume();
+
+        mPreference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mPreference.registerOnSharedPreferenceChangeListener(this);
 
         Log.v(LOG_TAG, "onResume date: " + mFragmentDate);
         restartLoader();
@@ -204,6 +215,8 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public void onPause(){
         super.onPause();
         Log.v(LOG_TAG, "onPause date: " + mFragmentDate);
+        mPreference.unregisterOnSharedPreferenceChangeListener(this);
+
     }
 
     @Override
@@ -241,6 +254,21 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     }
 
 
+
+
+
+    private void restartLoader() {
+
+
+        Log.v(LOG_TAG, "restartLoader restarting Loader");
+        getLoaderManager().restartLoader(SCORES_LOADER, null, this);
+
+    }
+
+
+
+
+
     // Added information for user when day is empty
     // this is the place to dynamically change the empty list text box to display to users.
     private void updateEmptyView(){
@@ -269,6 +297,33 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         mAdapter.swapCursor(null);
+    }
+
+
+    public void refreshData(){
+        mAdapter.notifyDataSetChanged();
+    }
+
+
+
+
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.v(LOG_TAG, "onSharedPreferenceChanged: " + key);
+
+        Log.v(LOG_TAG, "onSharedPreferenceChanged: matchDay = " + Utilies.getMatchDetailViewStatusPreference(getActivity(), mFragmentDate));
+
+        if (key.equals(mFragmentDate)) {
+            Log.v(LOG_TAG, "sharedPreference trying to change the value");
+//            restartLoader();
+            mAdapter.notifyDataSetChanged();
+
+
+        } else {
+            Log.v(LOG_TAG, "sharedPreference else");
+        }
+
     }
 
 
