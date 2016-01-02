@@ -58,4 +58,9 @@
     <string name="widget_detail_title">Football Scores Widget</string>
 
 
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">footballscores.barqsoft</string>
+    <string name="content_authority">barqsoft.footballscores</string>
+
+
 </resources>

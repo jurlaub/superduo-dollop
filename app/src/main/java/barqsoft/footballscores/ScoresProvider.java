@@ -7,11 +7,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * Created by yehya khaled on 2/25/2015.
  */
 public class ScoresProvider extends ContentProvider {
+    private final String LOG_TAG = "ScoresProvider";
+
     private static ScoresDBHelper mOpenHelper;
     private static final int MATCHES = 100;
     private static final int MATCHES_WITH_LEAGUE = 101;
@@ -22,7 +25,7 @@ public class ScoresProvider extends ContentProvider {
             new SQLiteQueryBuilder();
     private static final String SCORES_BY_LEAGUE = DatabaseContract.ScoresTable.LEAGUE_COL + " = ?";
     private static final String SCORES_BY_DATE =
-            DatabaseContract.ScoresTable.DATE_COL + " LIKE ?";
+            DatabaseContract.ScoresTable.DATE_COL + " = ?";
     private static final String SCORES_BY_ID =
             DatabaseContract.ScoresTable.MATCH_ID + " = ?";
 
@@ -44,6 +47,7 @@ public class ScoresProvider extends ContentProvider {
             if (link.contentEquals(DatabaseContract.BASE_CONTENT_URI.toString())) {
                 return MATCHES;
             } else if (link.contentEquals(DatabaseContract.ScoresTable.buildScoreWithDate().toString())) {
+                Log.v(LOG_TAG, "match_uri: " + uri);
                 return MATCHES_WITH_DATE;
             } else if (link.contentEquals(DatabaseContract.ScoresTable.buildScoreWithId().toString())) {
                 return MATCHES_WITH_ID;
@@ -97,11 +101,11 @@ public class ScoresProvider extends ContentProvider {
                         projection, null, null, null, null, sortOrder);
                 break;
             case MATCHES_WITH_DATE:
-                //Log.v(FetchScoreTask.LOG_TAG,selectionArgs[1]);
+                Log.v(LOG_TAG, "MATCH_WITH_DATE: " + uri);
                 //Log.v(FetchScoreTask.LOG_TAG,selectionArgs[2]);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         DatabaseContract.SCORES_TABLE,
-                        projection, SCORES_BY_DATE, selectionArgs, null, null, sortOrder);
+                        projection, null, null, null, null, sortOrder);
                 break;
             case MATCHES_WITH_ID:
                 retCursor = mOpenHelper.getReadableDatabase().query(

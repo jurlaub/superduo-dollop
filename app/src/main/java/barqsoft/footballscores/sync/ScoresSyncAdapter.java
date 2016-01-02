@@ -1,10 +1,18 @@
-package barqsoft.footballscores.service;
+package barqsoft.footballscores.sync;
 
-import android.app.IntentService;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.AbstractThreadedSyncAdapter;
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SyncRequest;
+import android.content.SyncResult;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -26,28 +34,38 @@ import barqsoft.footballscores.DatabaseContract;
 import barqsoft.footballscores.R;
 
 /**
- * Created by yehya khaled on 3/2/2015.
+ * Created by dev on 1/2/16.
+ *
+ *  some of the sync code from SunshineSyncAdapter
+ *
  */
-public class MyFetchService extends IntentService {
-    public static final String LOG_TAG = "MyFetchService";
+public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
+    public final String LOG_TAG = ScoresSyncAdapter.class.getSimpleName();
+
+
+    // Interval at which to sync with the scores, in seconds.
+    // 60 seconds (1 minute) * 180 = 3 hours
+    public static final int SYNC_INTERVAL = 60 * 180;
+    public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
 
     public static final String ACTION_DATA_UPDATED = "barqsoft.footballscores.ACTION_DATA_UPDATED";
 
 
-    public MyFetchService() {
-        super("MyFetchService");
-
-        Log.v(LOG_TAG, "MyFetchService constructor");
+    public ScoresSyncAdapter(Context context, boolean autoInitialize) {
+        super(context, autoInitialize);
     }
 
-
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+
         getData("n3");
         getData("p2");
 
-        return;
     }
+
+
+
+
 
     private void getData(String timeFrame) {
 
@@ -74,7 +92,7 @@ public class MyFetchService extends IntentService {
             URL fetch = new URL(fetch_build.toString());
             m_connection = (HttpURLConnection) fetch.openConnection();
             m_connection.setRequestMethod("GET");
-            m_connection.addRequestProperty("X-Auth-Token", getString(R.string.api_key));
+            m_connection.addRequestProperty("X-Auth-Token", getContext().getString(R.string.api_key));
             m_connection.connect();
 
             // Read the input stream into a String
@@ -127,12 +145,12 @@ public class MyFetchService extends IntentService {
                 if (matches.length() == 0) {
                     //if there is no data, call the function on dummy data
                     //this is expected behavior during the off season.
-                    processJSONdata(getString(R.string.dummy_data), getApplicationContext(), false);
+                    processJSONdata(getContext().getString(R.string.dummy_data), getContext(), false);
                     return;
                 }
 
 
-                processJSONdata(JSON_data, getApplicationContext(), true);
+                processJSONdata(JSON_data, getContext(), true);
 
             } else {
                 //Could not Connect
@@ -143,6 +161,8 @@ public class MyFetchService extends IntentService {
             Log.e(LOG_TAG, e.getMessage());
         }
     }
+
+
 
 
 
@@ -312,9 +332,106 @@ public class MyFetchService extends IntentService {
     private void updateWidgets(){
 
         Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
-        getApplicationContext().sendBroadcast(dataUpdatedIntent);
+        getContext().sendBroadcast(dataUpdatedIntent);
     }
 
 
-}
 
+
+    /**
+     * Helper method to schedule the sync adapter periodic execution
+     */
+    public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
+        Account account = getSyncAccount(context);
+        String authority = context.getString(R.string.content_authority);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // we can enable inexact timers in our periodic sync
+            SyncRequest request = new SyncRequest.Builder().
+                    syncPeriodic(syncInterval, flexTime).
+                    setSyncAdapter(account, authority).
+                    setExtras(new Bundle()).build();
+            ContentResolver.requestSync(request);
+        } else {
+
+            ContentResolver.addPeriodicSync(account,
+                    authority, new Bundle(), syncInterval);
+        }
+    }
+
+
+
+    /**
+     * Helper method to have the sync adapter sync immediately
+     * @param context The context used to access the account service
+     */
+    public static void syncImmediately(Context context) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        ContentResolver.requestSync(getSyncAccount(context),
+                context.getString(R.string.content_authority), bundle);
+    }
+
+
+
+    /**
+     * Helper method to get the fake account to be used with SyncAdapter, or make a new one
+     * if the fake account doesn't exist yet.  If we make a new account, we call the
+     * onAccountCreated method so we can initialize things.
+     *
+     * @param context The context used to access the account service
+     * @return a fake account.
+     */
+    public static Account getSyncAccount(Context context) {
+        // Get an instance of the Android account manager
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+
+        // Create the account type and default account
+        Account newAccount = new Account(
+                context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
+
+        // If the password doesn't exist, the account doesn't exist
+        if ( null == accountManager.getPassword(newAccount) ) {
+
+        /*
+         * Add the account and account type, no password or user data
+         * If successful, return the Account object, otherwise report an error.
+         */
+            if (!accountManager.addAccountExplicitly(newAccount, "", null)) {
+                return null;
+            }
+            /*
+             * If you don't set android:syncable="true" in
+             * in your <provider> element in the manifest,
+             * then call ContentResolver.setIsSyncable(account, AUTHORITY, 1)
+             * here.
+             */
+
+            onAccountCreated(newAccount, context);
+        }
+        return newAccount;
+    }
+
+
+    private static void onAccountCreated(Account newAccount, Context context) {
+        /*
+         * Since we've created an account
+         */
+        ScoresSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
+
+        /*
+         * Without calling setSyncAutomatically, our periodic sync will not be enabled.
+         */
+        ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.content_authority), true);
+
+        /*
+         * Finally, let's do a sync to get things started
+         */
+        syncImmediately(context);
+    }
+    public static void initializeSyncAdapter(Context context) {
+        getSyncAccount(context);
+    }
+
+}

@@ -9,12 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import barqsoft.footballscores.MainActivity;
 import barqsoft.footballscores.R;
-import barqsoft.footballscores.service.MyFetchService;
+import barqsoft.footballscores.sync.ScoresSyncAdapter;
 
 /**
  * Created by dev on 1/1/16.
@@ -28,7 +29,7 @@ public class DetailWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
 
-        if (MyFetchService.ACTION_DATA_UPDATED.equals(intent.getAction())) {
+        if (ScoresSyncAdapter.ACTION_DATA_UPDATED.equals(intent.getAction())) {
             Log.v(LOG_TAG, "Received intent and it matches");
 
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -42,6 +43,7 @@ public class DetailWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIDs) {
 //        super.onUpdate(context, appWidgetManager, appWidgetIds);
+        Log.v(LOG_TAG, "onUpdate");
 
         for (int appWidgetID : appWidgetIDs) {
 
@@ -59,7 +61,12 @@ public class DetailWidgetProvider extends AppWidgetProvider {
             } else {
                 setRemoteAdapterV11(context, views);
             }
-
+//
+            Intent clickIntentTemplate = new Intent(context, MainActivity.class);
+            PendingIntent pendingIntentTemplate = TaskStackBuilder.create(context)
+                    .addNextIntentWithParentStack(clickIntentTemplate)
+                    .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setPendingIntentTemplate(R.id.widget_list, pendingIntentTemplate);
 
             views.setEmptyView(R.id.widget_list, R.id.widget_empty);
 

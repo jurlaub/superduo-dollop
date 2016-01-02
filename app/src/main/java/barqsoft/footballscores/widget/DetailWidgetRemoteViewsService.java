@@ -46,6 +46,8 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
+        Log.v(LOG_TAG, "onGetViewFactory");
+
         return new RemoteViewsFactory() {
 
             private Cursor data = null;
@@ -64,6 +66,7 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
 //
                 final long identityToken = Binder.clearCallingIdentity();
                 Uri scoresWithDateUri = DatabaseContract.ScoresTable.buildScoreWithDate();
+
 //                String[] datesToUse = new String[] {};
                 data = getContentResolver().query(
                         scoresWithDateUri,
@@ -71,6 +74,12 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                         null,
                         null,
                         DatabaseContract.ScoresTable.DATE_COL + " ASC");
+
+                if (data != null) {
+                    Log.v(LOG_TAG, "data count: " + data.getCount());
+                } else {
+                    Log.v(LOG_TAG, "data is null");
+                }
 
 
                 Binder.restoreCallingIdentity(identityToken);
