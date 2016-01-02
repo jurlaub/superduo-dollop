@@ -3,11 +3,17 @@ package barqsoft.footballscores.widget;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Binder;
 import android.os.Build;
+import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import barqsoft.footballscores.DatabaseContract;
+import barqsoft.footballscores.R;
+import barqsoft.footballscores.Utilies;
 
 /**
  * Created by dev on 1/1/16.
@@ -56,53 +62,91 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                 }
 
 //
-//                final long identityToken = Binder.clearCallingIdentity();
-//                Uri scoresWithDateUri = DatabaseContract.ScoresTable.buildScoreWithDate();
+                final long identityToken = Binder.clearCallingIdentity();
+                Uri scoresWithDateUri = DatabaseContract.ScoresTable.buildScoreWithDate();
 //                String[] datesToUse = new String[] {};
-//                data = getContentResolver().query(
-//                        scoresWithDateUri,
-//                        SCORES_COLUMNS,
-//                        null,
-//                        null,
-//                        )
-//
-//
-//                Binder.restoreCallingIdentity(identityToken);
+                data = getContentResolver().query(
+                        scoresWithDateUri,
+                        SCORES_COLUMNS,
+                        null,
+                        null,
+                        DatabaseContract.ScoresTable.DATE_COL + " ASC");
+
+
+                Binder.restoreCallingIdentity(identityToken);
             }
 
             @Override
             public void onDestroy() {
+                if (data != null) {
+                    data.close();
+                    data = null;
+                }
 
             }
 
             @Override
             public int getCount() {
-                return 0;
+                return data == null ? 0 : data.getCount();
             }
 
             @Override
             public RemoteViews getViewAt(int position) {
-                return null;
+
+                if (position == AdapterView.INVALID_POSITION ||
+                        data == null || !data.moveToPosition(position)) {
+                    return null;
+                }
+
+                RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget_details_item_list);
+
+                // obtain values from cursor
+                String homeName = data.getString(INDEX_SCORE_HOME);
+                int homeScore = data.getInt(INDEX_SCORES_HOME_GOALS);
+                int homeIcon = Utilies.getTeamCrestByTeamName(homeName);
+
+                String awayName = data.getString(INDEX_SCORE_AWAY);
+                int awayScore = data.getInt(INDEX_SCORES_AWAY_GOALS);
+                int awayIcon = Utilies.getTeamCrestByTeamName(awayName);
+
+                String matchScores = Utilies.getScores(homeScore, awayScore);
+
+
+                // set the values in the widget listview
+                views.setTextViewText(R.id.home_name, homeName);
+                views.setImageViewResource(R.id.home_crest, homeIcon);
+
+                views.setTextViewText(R.id.away_name, awayName);
+                views.setImageViewResource(R.id.away_crest, awayIcon);
+
+                views.setTextViewText(R.id.score_textview, matchScores);
+
+
+                Log.v(LOG_TAG, "view position: " + position);
+                return views;
             }
 
             @Override
             public RemoteViews getLoadingView() {
-                return null;
+                return new RemoteViews(getPackageName(), R.layout.widget_details_item_list);
             }
 
             @Override
             public int getViewTypeCount() {
-                return 0;
+                return 1;
             }
 
             @Override
             public long getItemId(int position) {
-                return 0;
+                if (data.moveToPosition(position)) {
+                    return data.getLong(INDEX_SCORE_ID);
+                }
+                return position;
             }
 
             @Override
             public boolean hasStableIds() {
-                return false;
+                return true;
             }
         };
     }
