@@ -234,7 +234,6 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
                         League.equals(SERIE_A) ||
                         League.equals(BUNDESLIGA1) ||
                         League.equals(BUNDESLIGA2) ||
-                        League.equals(PRIMERA_DIVISION)||
                         League.equals(CHAMPIONS_LEAGUE))  {
 //                    ||
 //                    League.equals(DUMMYLEAGUE))

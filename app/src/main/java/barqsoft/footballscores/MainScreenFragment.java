@@ -66,7 +66,8 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public static final int COL_MATCH_ID = 8;                 //Match ID
     public static final int COL_MATCHDAY = 9;
 
-
+    private static final String SCORES_BY_DATE =
+            DatabaseContract.ScoresTable.DATE_COL + " Like ?";
 
 
 
@@ -183,7 +184,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // changed this from using mFragmentDate to new String[] {mFragmentDate}
         return new CursorLoader(getActivity(), DatabaseContract.ScoresTable.buildScoreWithDate(),
-                MATCHDETAILS_COLUMNS, null, new String[] {mFragmentDate}, null);
+                MATCHDETAILS_COLUMNS, SCORES_BY_DATE, new String[] {mFragmentDate}, null);
 
     }
 

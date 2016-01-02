@@ -39,7 +39,7 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
     private static final int INDEX_SCORE_AWAY = 2;
     private static final int INDEX_SCORES_HOME_GOALS = 3;
     private static final int INDEX_SCORES_AWAY_GOALS = 4;
-    private static final int INDEX_SCORES_DATE = 5;
+    private static final int INDEX_SCORES_MATCHDATE = 5;
     private static final int INDEX_SCORES_TIME = 6;
 
 
@@ -119,7 +119,7 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                 int awayIcon = Utilies.getTeamCrestByTeamName(awayName);
 
                 String matchScores = Utilies.getScores(homeScore, awayScore);
-
+                String matchDate = data.getString(INDEX_SCORES_MATCHDATE);
 
                 // set the values in the widget listview
                 views.setTextViewText(R.id.home_name, homeName);
@@ -129,6 +129,7 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                 views.setImageViewResource(R.id.away_crest, awayIcon);
 
                 views.setTextViewText(R.id.score_textview, matchScores);
+                views.setTextViewText(R.id.match_date, matchDate);
 
 
                 Log.v(LOG_TAG, "view position: " + position);

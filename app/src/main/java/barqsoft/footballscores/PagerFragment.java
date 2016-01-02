@@ -84,6 +84,7 @@ public class PagerFragment extends Fragment {
         }
 
 
+
         public String getDayName(Context context, long dateInMillis) {
             // If the date is today, return the localized version of "Today" instead of the actual
             // day name.
@@ -113,5 +114,9 @@ public class PagerFragment extends Fragment {
 
             }
         }
+
+
+
+
     }
 }

@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="list_horizonal_margin">2dp</dimen>
     <dimen name="share_button_margin">150dp</dimen>
+
     <dimen name="TeamNames">17sp</dimen>
     <dimen name="Score">30sp</dimen>
     <dimen name="League">15sp</dimen>
@@ -14,6 +15,11 @@
     <dimen name="widget_detail_default_height">180dp</dimen>
     <dimen name="widget_detail_min_resize_width">220dp</dimen>
     <dimen name="widget_detail_min_resize_height">@dimen/widget_detail_default_height</dimen>
+
+    <dimen name="widget_detail_team_names">12sp</dimen>
+    <dimen name="widget_detail_match_date">15sp</dimen>
+    <dimen name="widget_detail_match_score">15sp</dimen>
+
 
 
 

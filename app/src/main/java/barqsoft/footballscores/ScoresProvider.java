@@ -24,8 +24,7 @@ public class ScoresProvider extends ContentProvider {
     private static final SQLiteQueryBuilder ScoreQuery =
             new SQLiteQueryBuilder();
     private static final String SCORES_BY_LEAGUE = DatabaseContract.ScoresTable.LEAGUE_COL + " = ?";
-    private static final String SCORES_BY_DATE =
-            DatabaseContract.ScoresTable.DATE_COL + " = ?";
+
     private static final String SCORES_BY_ID =
             DatabaseContract.ScoresTable.MATCH_ID + " = ?";
 
@@ -105,7 +104,7 @@ public class ScoresProvider extends ContentProvider {
                 //Log.v(FetchScoreTask.LOG_TAG,selectionArgs[2]);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         DatabaseContract.SCORES_TABLE,
-                        projection, null, null, null, null, sortOrder);
+                        projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case MATCHES_WITH_ID:
                 retCursor = mOpenHelper.getReadableDatabase().query(
