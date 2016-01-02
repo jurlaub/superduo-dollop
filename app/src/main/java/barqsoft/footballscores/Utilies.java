@@ -12,13 +12,15 @@ public class Utilies {
 
     public static final String LOG_TAG = Utilies.class.getSimpleName();
 
-    public static final int SERIE_A = 357;
-    public static final int PREMIER_LEAGUE = 354;
-    public static final int CHAMPIONS_LEAGUE = 362;
-    public static final int PRIMERA_DIVISION = 358;
-    public static final int BUNDESLIGA = 351;
+    public static final int SERIE_A = 401; // 357
+    public static final int PREMIER_LEAGUE = 398; // 354
+    public static final int CHAMPIONS_LEAGUE = 405; // 362
+    public static final int PRIMERA_DIVISION = 399; // 358
+    public static final int BUNDESLIGA = 394; // 351
+    public static final int BUNDESLIGA2 = 395; // new
 
     public static String getLeague(int league_num) {
+        Log.v("getLeague", "league num:" + league_num);
 
         switch (league_num) {
             case SERIE_A:
@@ -30,7 +32,9 @@ public class Utilies {
             case PRIMERA_DIVISION:
                 return "Primera Division";
             case BUNDESLIGA:
-                return "Bundesliga";
+                return "BL1";
+            case BUNDESLIGA2:
+                return "BL2";
             default:
                 return "Not known League Please report";
         }
