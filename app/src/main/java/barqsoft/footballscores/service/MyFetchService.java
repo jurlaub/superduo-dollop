@@ -31,10 +31,13 @@ import barqsoft.footballscores.R;
 public class MyFetchService extends IntentService {
     public static final String LOG_TAG = "MyFetchService";
 
+    public static final String ACTION_DATA_UPDATED = "barqsoft.footballscores.ACTION_DATA_UPDATED";
 
 
     public MyFetchService() {
         super("MyFetchService");
+
+        Log.v(LOG_TAG, "MyFetchService constructor");
     }
 
 
@@ -59,6 +62,9 @@ public class MyFetchService extends IntentService {
         HttpURLConnection m_connection = null;
         BufferedReader reader = null;
         String JSON_data = null;
+
+
+        Log.v(LOG_TAG, "getData(" + timeFrame + ")");
 
 
         //Opening Connection
@@ -257,7 +263,7 @@ public class MyFetchService extends IntentService {
                     Away_goals = match_data.getJSONObject(RESULT).getString(AWAY_GOALS);
                     match_day = match_data.getString(MATCH_DAY);
 
-                    Log.v(LOG_TAG, "match_day: " + match_day);
+                    Log.v(LOG_TAG, "mDate: " + mDate);
 
                     ContentValues match_values = new ContentValues();
                     match_values.put(DatabaseContract.ScoresTable.MATCH_ID, match_id);
@@ -290,6 +296,7 @@ public class MyFetchService extends IntentService {
             values.toArray(insert_data);
             inserted_data = mContext.getContentResolver().bulkInsert(DatabaseContract.BASE_CONTENT_URI, insert_data);
 
+            updateWidgets();
 
             //Log.v(LOG_TAG,"Succesfully Inserted : " + String.valueOf(inserted_data));
         } catch (JSONException e) {
@@ -297,5 +304,15 @@ public class MyFetchService extends IntentService {
         }
 
     }
+
+    // update the widgets that the data has changed... However this  probably wont' do anything as
+    // there is not an automatic sync process going on. Probably need to add a SyncAdapter.
+    private void updateWidgets(){
+
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+        getApplicationContext().sendBroadcast(dataUpdatedIntent);
+    }
+
+
 }
 

@@ -33,6 +33,8 @@ public class PagerFragment extends Fragment {
         mPagerHandler = (ViewPager) rootView.findViewById(R.id.pager);
         mPagerAdapter = new MyPageAdapter(getChildFragmentManager());
 
+
+
         for (int i = 0; i < NUM_PAGES; i++) {
             Date fragmentDate = new Date(System.currentTimeMillis() + ((i - 2) * 86400000));
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -53,6 +55,7 @@ public class PagerFragment extends Fragment {
 
         return rootView;
     }
+
 
 
     private class MyPageAdapter extends FragmentStatePagerAdapter {

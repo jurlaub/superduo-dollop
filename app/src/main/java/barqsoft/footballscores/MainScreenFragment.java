@@ -1,6 +1,5 @@
 package barqsoft.footballscores;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import barqsoft.footballscores.service.MyFetchService;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -76,10 +73,13 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public MainScreenFragment() {
     }
 
-    private void update_scores() {
-        Intent service_start = new Intent(getActivity(), MyFetchService.class);
-        getActivity().startService(service_start);
-    }
+    // called each time the fragment's onCreateView is called - way more then is necessary
+//    private void update_scores() {
+//        Intent service_start = new Intent(getActivity(), MyFetchService.class);
+//        getActivity().startService(service_start);
+//        Log.v(LOG_TAG, "update_scores called");
+//
+//    }
 
     public void setFragmentDate(String date) {
         mFragmentDate = date;
@@ -97,7 +97,9 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
-        update_scores();
+
+//      Called too many times when placed in this location
+//        update_scores();
 
         Log.v(LOG_TAG, "onCreateView date:" + mFragmentDate);
 

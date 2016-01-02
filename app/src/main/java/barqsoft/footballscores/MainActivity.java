@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import barqsoft.footballscores.service.MyFetchService;
+
 public class MainActivity extends ActionBarActivity  {
 
     public static int selected_match_id;
@@ -19,6 +21,9 @@ public class MainActivity extends ActionBarActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // called once when the app is opened
+        update_scores();
+
         setContentView(R.layout.activity_main);
         Log.d(LOG_TAG, "Reached MainActivity onCreate");
 
@@ -28,6 +33,8 @@ public class MainActivity extends ActionBarActivity  {
                     .add(R.id.container, my_main)
                     .commit();
         }
+
+
 
     }
 
@@ -51,6 +58,11 @@ public class MainActivity extends ActionBarActivity  {
             Intent start_about = new Intent(this, AboutActivity.class);
             startActivity(start_about);
             return true;
+
+
+        // refesh data from web
+        } else if (id == R.id.action_refresh) {
+            update_scores();
         }
 
         return super.onOptionsItemSelected(item);
@@ -85,7 +97,13 @@ public class MainActivity extends ActionBarActivity  {
 
 
 
+    // moved here to enhance performance.
+    private void update_scores() {
+        Intent service_start = new Intent(this, MyFetchService.class);
+        this.startService(service_start);
+        Log.v(LOG_TAG, "update_scores called");
 
+    }
 
 
 }
