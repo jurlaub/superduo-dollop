@@ -58,7 +58,7 @@
     <string name="team_crest_home">Home Team Crest</string>
     <string name="team_crest_away">Away Team Crest</string>
 
-    <string name="page_day_contentdescription">This page shows all the matches on </string>
+    <string name="page_day_contentdescription">This page shows all the matches on %1$s.</string>
     <string name="match_scores_contentdescription">%1$s has a score of %2$d and %3$s has a score of %4$d.</string>
     <!--<string name="team_score_contentdescription_v2">The score is %1$d to %2$d, $3$s is </string>-->
     <string name="no_match_scores_contentdescription">There is currently no score.</string>

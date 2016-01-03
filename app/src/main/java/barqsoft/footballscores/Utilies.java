@@ -2,11 +2,8 @@ package barqsoft.footballscores;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 
 import java.sql.Date;
@@ -263,24 +260,24 @@ public class Utilies {
 
     }
 
-    public static void setMatchDetailViewStatusPreference(Context context, int matchEntry, String fragmentDate) {
-        Log.v(LOG_TAG, "matchDetail set to " + matchEntry);
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sp.edit();
-
-        editor.putInt(fragmentDate, matchEntry);
-        editor.apply();
-
-    }
-
-    public static int getMatchDetailViewStatusPreference(Context context, String fragmentDate) {
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        int matchEntry = sp.getInt(fragmentDate, MainScreenFragment.DEFAULT_DETAIL_VIEW);
-
-        return matchEntry;
-    }
+//    public static void setMatchDetailViewStatusPreference(Context context, int matchEntry, String fragmentDate) {
+//        Log.v(LOG_TAG, "matchDetail set to " + matchEntry);
+//
+//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+//        SharedPreferences.Editor editor = sp.edit();
+//
+//        editor.putInt(fragmentDate, matchEntry);
+//        editor.apply();
+//
+//    }
+//
+//    public static int getMatchDetailViewStatusPreference(Context context, String fragmentDate) {
+//
+//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+//        int matchEntry = sp.getInt(fragmentDate, MainScreenFragment.DEFAULT_DETAIL_VIEW);
+//
+//        return matchEntry;
+//    }
 
 
 

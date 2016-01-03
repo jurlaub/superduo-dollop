@@ -1,9 +1,7 @@
 package barqsoft.footballscores;
 
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -21,15 +19,16 @@ import barqsoft.footballscores.data.DatabaseContract;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     public static final String LOG_TAG = MainScreenFragment.class.getSimpleName();
     public ScoresAdapter mAdapter;
 
     public static final int SCORES_LOADER = 0;
+//
+//    private SharedPreferences.OnSharedPreferenceChangeListener mPreferenceListener;
+//    private SharedPreferences mPreference;
 
-    private SharedPreferences.OnSharedPreferenceChangeListener mPreferenceListener;
-    private SharedPreferences mPreference;
     public static final int DEFAULT_DETAIL_VIEW = -1;
 
 
@@ -203,9 +202,6 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public void onResume(){
         super.onResume();
 
-        mPreference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mPreference.registerOnSharedPreferenceChangeListener(this);
-
         Log.v(LOG_TAG, "onResume date: " + mFragmentDate);
         restartLoader();
 
@@ -215,7 +211,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public void onPause(){
         super.onPause();
         Log.v(LOG_TAG, "onPause date: " + mFragmentDate);
-        mPreference.unregisterOnSharedPreferenceChangeListener(this);
+
 
     }
 
@@ -308,23 +304,6 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
 
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.v(LOG_TAG, "onSharedPreferenceChanged: " + key);
-
-        Log.v(LOG_TAG, "onSharedPreferenceChanged: matchDay = " + Utilies.getMatchDetailViewStatusPreference(getActivity(), mFragmentDate));
-
-        if (key.equals(mFragmentDate)) {
-            Log.v(LOG_TAG, "sharedPreference trying to change the value");
-//            restartLoader();
-            mAdapter.notifyDataSetChanged();
-
-
-        } else {
-            Log.v(LOG_TAG, "sharedPreference else");
-        }
-
-    }
 
 
 }
