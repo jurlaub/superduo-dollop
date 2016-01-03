@@ -16,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import barqsoft.footballscores.data.DatabaseContract;
+
 /**
  * A placeholder fragment containing a simple view.
  */
