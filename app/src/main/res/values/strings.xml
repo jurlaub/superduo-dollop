@@ -65,5 +65,8 @@
     <string name="sync_account_type">footballscores.barqsoft</string>
     <string name="content_authority">barqsoft.footballscores</string>
 
+    <!-- MainScreenFragment-->
+    <string name="share_action_title">Share Football Scores</string>
+
 
 </resources>

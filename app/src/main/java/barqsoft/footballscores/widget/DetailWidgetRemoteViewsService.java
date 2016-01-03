@@ -118,7 +118,7 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                 int awayScore = data.getInt(INDEX_SCORES_AWAY_GOALS);
                 int awayIcon = Utilies.getTeamCrestByTeamName(awayName);
 
-                String matchScores = Utilies.getScores(homeScore, awayScore);
+                String matchScores = Utilies.getScores(getApplicationContext(), homeScore, awayScore);
                 String matchDate = Utilies.getDayName(getApplicationContext(), data.getString(INDEX_SCORES_MATCHDATE));
 //                String matchDate = data.getString(INDEX_SCORES_MATCHDATE);
                 Log.v(LOG_TAG, homeName + " vs " + awayName + " occurred, " + matchDate + " the date: " + data.getString(INDEX_SCORES_MATCHDATE) );

@@ -155,7 +155,9 @@ public class ScoresAdapter extends CursorAdapter {
         viewHolder.away_name.setText(cursor.getString(MainScreenFragment.COL_AWAY));
 
         viewHolder.date.setText(cursor.getString(MainScreenFragment.COL_MATCHTIME));
-        viewHolder.mScore.setText(Utilies.getScores(cursor.getInt(MainScreenFragment.COL_HOME_GOALS), cursor.getInt(MainScreenFragment.COL_AWAY_GOALS)));
+        viewHolder.mScore.setText(Utilies.getScores(mContext, cursor.getInt(MainScreenFragment.COL_HOME_GOALS), cursor.getInt(MainScreenFragment.COL_AWAY_GOALS)));
+
+
 
         // set contextual ContentDescription for the score
         String tmpMessage = new StringBuilder(cursor.getString(MainScreenFragment.COL_HOME)).append(' ')
@@ -190,18 +192,29 @@ public class ScoresAdapter extends CursorAdapter {
 
                 league.setText(Utilies.getLeague(cursor.getInt(MainScreenFragment.COL_LEAGUE)));
                 matchday.setText(Utilies.getMatchDay(cursor.getInt(MainScreenFragment.COL_MATCHDAY), cursor.getInt(MainScreenFragment.COL_LEAGUE)));
+
+
+                // share Button listener
                 shareButton.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
                         //add Share Action
-                        context.startActivity(createShareForecastIntent(viewHolder.home_name.getText() + " "
-                                + viewHolder.mScore.getText() + " " + viewHolder.away_name.getText() + " "));
+                        String shareString = viewHolder.home_name.getText() + " "
+                                + viewHolder.mScore.getText() + " " + viewHolder.away_name.getText() + " ";
+
+                        Intent shareIntent = createShareForecastIntent(shareString);
+
+                        mContext.startActivity(Intent.createChooser(shareIntent, mContext.getString(R.string.share_action_title)));
+
+//                        context.startActivity(createShareForecastIntent(viewHolder.home_name.getText() + " "
+//                                + viewHolder.mScore.getText() + " " + viewHolder.away_name.getText() + " "));
                     }
                 });
 //
 
 
+                // This listener will minimize the expanded layout when the expanded layout is clicked.
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -1,9 +1,13 @@
 package barqsoft.footballscores;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -72,15 +76,41 @@ public class Utilies {
 
 
 
-    public static String getScores(int home_goals, int away_goals) {
+    // check if the layout order is RTL
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private static boolean isLayoutRTL(Context context){
+        Configuration config =  context.getResources().getConfiguration();
+
+        if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // scores; standard LTR means Home team on the Left; Away on the Right
+    public static String getScores(Context context, int home_goals, int away_goals) {
         if (home_goals < 0 || away_goals < 0) {
             return " - ";
         } else {
+
+            // check the SDK version for RTL compatibility
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+
+                // if true, (this means that RTL if on)
+                // then flip the score order.
+                if (isLayoutRTL(context)){
+                    return String.valueOf(away_goals) + " - " + String.valueOf(home_goals);
+                }
+            }
+
             return String.valueOf(home_goals) + " - " + String.valueOf(away_goals);
         }
 
     }
 
+
+    // Added a number of crests that currently exist in the drawable folder
     public static int getTeamCrestByTeamName(String team_name) {
         if (team_name == null) {
             return R.drawable.no_icon;
@@ -149,7 +179,7 @@ public class Utilies {
 
 
     /*
-     * obtains helpful day strings.
+     * obtains helpful day strings using Calendar classes instead of the other classes.
      *
      */
     public static String getDayName(Context context, String date){
