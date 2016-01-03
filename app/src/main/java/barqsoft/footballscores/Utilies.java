@@ -5,6 +5,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
 /**
  * Created by yehya khaled on 3/3/2015.
  */
@@ -141,6 +146,67 @@ public class Utilies {
         }
     }
 
+
+
+    /*
+     * obtains helpful day strings.
+     *
+     */
+    public static String getDayName(Context context, String date){
+
+        Log.v(LOG_TAG, "the date is " + date);
+
+        final int TOMORROW = 1;
+        final int YESTERDAY = -1;
+        final int DAYS_ARE_EQUAL = 0;
+
+        // set up the target calendar date
+        Date targetDate = Date.valueOf(date);
+        GregorianCalendar targetDay = new GregorianCalendar();
+        targetDay.setTime(targetDate);
+
+        // value to compare to target date
+        GregorianCalendar currentDay = new GregorianCalendar();
+
+        // set up value for tomorrow
+        GregorianCalendar tomorrowDay = new GregorianCalendar();
+        tomorrowDay.add(Calendar.DAY_OF_WEEK, TOMORROW);
+
+        // set up value for yesterday
+        GregorianCalendar yesterdayDay = new GregorianCalendar();
+        yesterdayDay.add(Calendar.DAY_OF_WEEK, YESTERDAY);
+
+
+        // today
+//        if (targetDay.compareTo(currentDay) == DAYS_ARE_EQUAL) {
+        if (targetDay.get(Calendar.DAY_OF_WEEK) == currentDay.get(Calendar.DAY_OF_WEEK)) {
+
+            Log.v(LOG_TAG, "today, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
+            return  context.getString(R.string.today);
+
+        // tomorrow
+        } else if (targetDay.get(Calendar.DAY_OF_WEEK) == tomorrowDay.get(Calendar.DAY_OF_WEEK)) {
+            Log.v(LOG_TAG, "tomorrow, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
+            return context.getString(R.string.tomorrow);
+
+        // yesterday
+        } else if (targetDay.get(Calendar.DAY_OF_WEEK) == yesterdayDay.get(Calendar.DAY_OF_WEEK)) {
+            Log.v(LOG_TAG, "yesterday, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
+            return context.getString(R.string.yesterday);
+
+        // all other days, return the day
+        } else {
+
+            String dayString = targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+          Log.v(LOG_TAG, "otherwise, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
+//            Log.v(LOG_TAG, "Day is " + dayString);
+            return dayString;
+
+        }
+
+
+
+    }
 
     public static void setMatchDetailViewStatusPreference(Context context, int matchEntry, String fragmentDate) {
         Log.v(LOG_TAG, "matchDetail set to " + matchEntry);

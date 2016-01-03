@@ -39,7 +39,7 @@ public class ScoresProvider extends ContentProvider {
         return matcher;
     }
 
-    // TODO this is odd.
+    // This method is tied to closely with the DatabaseContract methods. It should be tied to the Uris.
     private int match_uri(Uri uri) {
         String link = uri.toString();
         {

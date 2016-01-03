@@ -119,7 +119,9 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                 int awayIcon = Utilies.getTeamCrestByTeamName(awayName);
 
                 String matchScores = Utilies.getScores(homeScore, awayScore);
-                String matchDate = data.getString(INDEX_SCORES_MATCHDATE);
+                String matchDate = Utilies.getDayName(getApplicationContext(), data.getString(INDEX_SCORES_MATCHDATE));
+//                String matchDate = data.getString(INDEX_SCORES_MATCHDATE);
+                Log.v(LOG_TAG, homeName + " vs " + awayName + " occurred, " + matchDate + " the date: " + data.getString(INDEX_SCORES_MATCHDATE) );
 
                 // set the values in the widget listview
                 views.setTextViewText(R.id.home_name, homeName);
