@@ -22,6 +22,8 @@ import barqsoft.footballscores.data.DatabaseContract;
 public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     public static final String LOG_TAG = MainScreenFragment.class.getSimpleName();
+    public static final String EXTRA_SCORES_DATE = "mainscreenfragment.TARGETDATE";
+
     public ScoresAdapter mAdapter;
 
     public static final int SCORES_LOADER = 0;
@@ -70,6 +72,21 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
 
 
+    // used by ScoresPagerActivity to generate a new fragment.
+    public static MainScreenFragment newInstance(String targetDate) {
+        Bundle args = new Bundle();
+        args.putSerializable(EXTRA_SCORES_DATE, targetDate);
+
+        MainScreenFragment fragment = new MainScreenFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+
+
+
+
     public MainScreenFragment() {
     }
 
@@ -94,6 +111,28 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public void setPageTitle(String title) {
         mPageTitle = title;
     }
+
+
+
+
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+//        if (savedInstanceState != null) {
+//            String targetDate = (String)getArguments().getSerializable(EXTRA_SCORES_DATE);
+//
+//            this.setFragmentDate(targetDate);
+//            this.setPageTitle(Utilies.getDayName(getActivity(), targetDate));
+//
+//        } else {
+//            Log.v(LOG_TAG, "bundle is empty, probably will crash");
+//        }
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
