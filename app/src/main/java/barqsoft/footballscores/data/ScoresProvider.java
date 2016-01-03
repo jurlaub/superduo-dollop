@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 
 /**
  * Created by yehya khaled on 2/25/2015.
@@ -20,7 +19,9 @@ public class ScoresProvider extends ContentProvider {
     private static final int MATCHES_WITH_LEAGUE = 101;
     private static final int MATCHES_WITH_ID = 102;
     private static final int MATCHES_WITH_DATE = 103;
+
     private UriMatcher muriMatcher = buildUriMatcher();
+
     private static final SQLiteQueryBuilder ScoreQuery =
             new SQLiteQueryBuilder();
     private static final String SCORES_BY_LEAGUE = DatabaseContract.ScoresTable.LEAGUE_COL + " = ?";
@@ -33,9 +34,9 @@ public class ScoresProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = DatabaseContract.BASE_CONTENT_URI.toString();
         matcher.addURI(authority, null, MATCHES);
-        matcher.addURI(authority, "league", MATCHES_WITH_LEAGUE);
-        matcher.addURI(authority, "id", MATCHES_WITH_ID);
-        matcher.addURI(authority, "date", MATCHES_WITH_DATE);
+        matcher.addURI(authority, DatabaseContract.PATH_LEAGUE, MATCHES_WITH_LEAGUE);
+        matcher.addURI(authority, DatabaseContract.PATH_ID, MATCHES_WITH_ID);
+        matcher.addURI(authority, DatabaseContract.PATH_DATE, MATCHES_WITH_DATE);
         return matcher;
     }
 
@@ -46,7 +47,6 @@ public class ScoresProvider extends ContentProvider {
             if (link.contentEquals(DatabaseContract.BASE_CONTENT_URI.toString())) {
                 return MATCHES;
             } else if (link.contentEquals(DatabaseContract.ScoresTable.buildScoreWithDate().toString())) {
-                Log.v(LOG_TAG, "match_uri: " + uri);
                 return MATCHES_WITH_DATE;
             } else if (link.contentEquals(DatabaseContract.ScoresTable.buildScoreWithId().toString())) {
                 return MATCHES_WITH_ID;
@@ -100,7 +100,7 @@ public class ScoresProvider extends ContentProvider {
                         projection, null, null, null, null, sortOrder);
                 break;
             case MATCHES_WITH_DATE:
-                Log.v(LOG_TAG, "MATCH_WITH_DATE: " + uri);
+//                Log.v(LOG_TAG, "MATCH_WITH_DATE: " + uri);
                 //Log.v(FetchScoreTask.LOG_TAG,selectionArgs[2]);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         DatabaseContract.SCORES_TABLE,

@@ -83,4 +83,8 @@
     <string name="share_action_contentdescription">Share football scores</string>
 
 
+
+    <string name="football_scores_hashtag">#Football_Scores</string>
+
+
 </resources>

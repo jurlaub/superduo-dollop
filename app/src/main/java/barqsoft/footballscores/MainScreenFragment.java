@@ -163,10 +163,6 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
 
 //
-//                Log.v(LOG_TAG, "mAdapter.mDetail_match_id: " + mAdapter.mDetail_match_id + " selected id: " + selected.match_id + " position: " + position);
-//                // this is an attempt to save the state across lifecycles.
-//                MainActivity.selected_match_id = (int) selected.match_id;
-//
                 mAdapter.notifyDataSetChanged();
 //                restartLoader();
             }
