@@ -58,6 +58,7 @@
 
 
     <string name="widget_detail_title">Football Scores Widget</string>
+    <string name="widget_empty_list">There is no data on scheduled matches.</string>
 
 
     <!-- SyncAdapter related -->
