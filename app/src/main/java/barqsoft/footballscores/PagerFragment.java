@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,35 @@ public class PagerFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.v(LOG_TAG, "onStart");
+
+    }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.v(LOG_TAG, "onResume");
+
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.v(LOG_TAG, "onPause");
+
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.v(LOG_TAG, "onStop");
+
     }
 
 

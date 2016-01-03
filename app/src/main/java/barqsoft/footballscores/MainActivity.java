@@ -46,6 +46,36 @@ public class MainActivity extends ActionBarActivity  {
 
 
     @Override
+    public void onStart(){
+        super.onStart();
+        Log.v(LOG_TAG, "onStart");
+
+    }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.v(LOG_TAG, "onResume");
+
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.v(LOG_TAG, "onPause");
+
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.v(LOG_TAG, "onStop");
+
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -75,33 +105,33 @@ public class MainActivity extends ActionBarActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        Log.v(SAVE_TAG, "will save");
-        Log.v(SAVE_TAG, "fragment: " + String.valueOf(my_main.mPagerHandler.getCurrentItem()));
-        Log.v(SAVE_TAG, "selected id: " + selected_match_id);
-
-        outState.putInt(PAGER_CURRENT, my_main.mPagerHandler.getCurrentItem());
-        outState.putInt(SELECTED_MATCH, selected_match_id);
-        getSupportFragmentManager().putFragment(outState, PAGERFRAGMENT_MAIN, my_main);
-
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        Log.v(SAVE_TAG, "will retrive");
-        Log.v(SAVE_TAG, "fragment: " + String.valueOf(savedInstanceState.getInt(PAGER_CURRENT)));
-        Log.v(SAVE_TAG, "selected id: " + savedInstanceState.getInt(SELECTED_MATCH));
-
-        current_fragment = savedInstanceState.getInt(PAGER_CURRENT);
-        selected_match_id = savedInstanceState.getInt(SELECTED_MATCH);
-        my_main = (PagerFragment) getSupportFragmentManager().getFragment(savedInstanceState, PAGERFRAGMENT_MAIN);
-
-
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        Log.v(SAVE_TAG, "will save");
+//        Log.v(SAVE_TAG, "fragment: " + String.valueOf(my_main.mPagerHandler.getCurrentItem()));
+//        Log.v(SAVE_TAG, "selected id: " + selected_match_id);
+//
+//        outState.putInt(PAGER_CURRENT, my_main.mPagerHandler.getCurrentItem());
+//        outState.putInt(SELECTED_MATCH, selected_match_id);
+//        getSupportFragmentManager().putFragment(outState, PAGERFRAGMENT_MAIN, my_main);
+//
+//        super.onSaveInstanceState(outState);
+//    }
+//
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        Log.v(SAVE_TAG, "will retrive");
+//        Log.v(SAVE_TAG, "fragment: " + String.valueOf(savedInstanceState.getInt(PAGER_CURRENT)));
+//        Log.v(SAVE_TAG, "selected id: " + savedInstanceState.getInt(SELECTED_MATCH));
+//
+//        current_fragment = savedInstanceState.getInt(PAGER_CURRENT);
+//        selected_match_id = savedInstanceState.getInt(SELECTED_MATCH);
+//        my_main = (PagerFragment) getSupportFragmentManager().getFragment(savedInstanceState, PAGERFRAGMENT_MAIN);
+//
+//
+//        super.onRestoreInstanceState(savedInstanceState);
+//    }
+//
 
 
 //    // moved here to enhance performance.

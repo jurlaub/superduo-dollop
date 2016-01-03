@@ -179,6 +179,10 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // changed this from using mFragmentDate to new String[] {mFragmentDate}
+        Log.v(LOG_TAG, "onCreateLoader - i:" + i );
+
+        checkFagmentDate("onCreateLoader");
+
         return new CursorLoader(getActivity(), DatabaseContract.ScoresTable.buildScoreWithDate(),
                 MATCHDETAILS_COLUMNS, SCORES_BY_DATE, new String[] {mFragmentDate}, null);
 
@@ -196,13 +200,22 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
 
 
+    private void checkFagmentDate(String g) {
+        if (mFragmentDate != null) {
+            Log.v(LOG_TAG, "PageTitle: " + mPageTitle + " " + g + " mFragmentDate: " + mFragmentDate);
+        } else {
+            Log.v(LOG_TAG, "PageTitle: " + mPageTitle + " " +g + " mFragmentDate is null");
+        }
+    }
 
 
     @Override
     public void onResume(){
         super.onResume();
 
-        Log.v(LOG_TAG, "onResume date: " + mFragmentDate);
+        checkFagmentDate("onResume");
+        Log.v(LOG_TAG, "onResume");
+//        Log.v(LOG_TAG, "onResume date: " + mFragmentDate);
         restartLoader();
 
     }
@@ -210,9 +223,10 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onPause(){
         super.onPause();
-        Log.v(LOG_TAG, "onPause date: " + mFragmentDate);
+//        Log.v(LOG_TAG, "onPause date: " + mFragmentDate);
 
-
+        checkFagmentDate("onPause");
+        Log.v(LOG_TAG, "onPause");
     }
 
 //    ERROR was in this method. The cursor would be direct to skip around unnecessarily.
@@ -251,7 +265,23 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     }
 
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.v(LOG_TAG, "onStart");
 
+    }
+
+
+
+
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.v(LOG_TAG, "onStop");
+
+    }
 
 
     private void restartLoader() {
