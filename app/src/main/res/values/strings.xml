@@ -12,11 +12,15 @@
 
     <string name="champions_league">UEFA Champions League</string>
     <string name="bundesliga">Bundesliga</string>
+    <string name="bl1">BL1</string>
+    <string name="bl2">BL2</string>
     <string name="premierleague">Premier League</string>
     <string name="primeradivison">Primera Division</string>
     <string name="seriaa">Serie A</string>
+    <string name="league_unknown">Not known League Please report</string>
+
     <string name="matchday_text">Match day</string>
-    <string name="group_stage_text">Group stages</string>
+    <string name="group_stage_text">Group stages, Matchday : %1$d</string>
     <string name="first_knockout_round">First knockout round</string>
     <string name="quarter_final">Quarter Final</string>
     <string name="semi_final">Semi Final</string>

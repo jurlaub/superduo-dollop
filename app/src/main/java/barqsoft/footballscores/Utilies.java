@@ -28,49 +28,49 @@ public class Utilies {
     public static final int BUNDESLIGA = 394; // 351
     public static final int BUNDESLIGA2 = 395; // new
 
-    public static String getLeague(int league_num) {
-        Log.v("getLeague", "league num:" + league_num);
+    public static String getLeague(Context context, int league_num) {
 
         switch (league_num) {
             case SERIE_A:
-                return "Seria A";
+                return context.getString(R.string.seriaa);
             case PREMIER_LEAGUE:
-                return "Premier League";
+                return context.getString(R.string.premierleague);
             case CHAMPIONS_LEAGUE:
-                return "UEFA Champions League";
+                return context.getString(R.string.champions_league);
             case PRIMERA_DIVISION:
-                return "Primera Division";
+                return context.getString(R.string.primeradivison);
             case BUNDESLIGA:
-                return "BL1";
+                return context.getString(R.string.bl1);
             case BUNDESLIGA2:
-                return "BL2";
+                return context.getString(R.string.bl2);
             default:
-                return "Not known League Please report";
+                return context.getString(R.string.league_unknown);
         }
     }
 
-    public static String getMatchDay(int match_day, int league_num) {
+    public static String getMatchDay(Context context, int match_day, int league_num) {
 
         if (league_num == CHAMPIONS_LEAGUE) {
 
             if (match_day <= 6) {
-                return "Group Stages, Matchday : 6";
+                String messageFormat = context.getString(R.string.group_stage_text);
+                return String.format(messageFormat, match_day);
 
             } else if (match_day == 7 || match_day == 8) {
-                return "First Knockout round";
+                return context.getString(R.string.first_knockout_round);
 
             } else if (match_day == 9 || match_day == 10) {
-                return "QuarterFinal";
+                return context.getString(R.string.quarter_final);
 
             } else if (match_day == 11 || match_day == 12) {
-                return "SemiFinal";
+                return context.getString(R.string.semi_final);
 
             } else {
-                return "Final";
+                return context.getString(R.string.final_text);
             }
 
         } else {
-            return "Matchday : " + String.valueOf(match_day);
+            return  context.getString(R.string.matchday_text) + String.valueOf(match_day);
         }
     }
 
@@ -120,7 +120,7 @@ public class Utilies {
         }
 
         message = String.format(messageFormat, home, home_goals, away, away_goals);
-        Log.v(LOG_TAG, "getScoresforCD is " + message);
+//        Log.v(LOG_TAG, "getScoresforCD is " + message);
 
         return message;
 
@@ -136,9 +136,13 @@ public class Utilies {
         if (team_name == null) {
             return R.drawable.no_icon;
         }
-        Log.v(LOG_TAG, "Team Name: " + team_name);
-        switch (team_name) { //This is the set of icons that are currently in the app. Feel free to find and add more
-            //as you go.
+
+        //
+        //
+        // NOTE: strings here are names of teams and not customer visible. Not placing in strings.xml
+        //
+        //
+        switch (team_name) {
             case "Arsenal London FC":
             case "Arsenal FC":
                 return R.drawable.arsenal;
@@ -205,7 +209,7 @@ public class Utilies {
      */
     public static String getDayName(Context context, String date){
 
-        Log.v(LOG_TAG, "the date is " + date);
+//        Log.v(LOG_TAG, "the date is " + date);
 
         final int TOMORROW = 1;
         final int YESTERDAY = -1;
@@ -232,24 +236,24 @@ public class Utilies {
 //        if (targetDay.compareTo(currentDay) == DAYS_ARE_EQUAL) {
         if (targetDay.get(Calendar.DAY_OF_WEEK) == currentDay.get(Calendar.DAY_OF_WEEK)) {
 
-            Log.v(LOG_TAG, "today, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
+//            Log.v(LOG_TAG, "today, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
             return  context.getString(R.string.today);
 
         // tomorrow
         } else if (targetDay.get(Calendar.DAY_OF_WEEK) == tomorrowDay.get(Calendar.DAY_OF_WEEK)) {
-            Log.v(LOG_TAG, "tomorrow, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
+//            Log.v(LOG_TAG, "tomorrow, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
             return context.getString(R.string.tomorrow);
 
         // yesterday
         } else if (targetDay.get(Calendar.DAY_OF_WEEK) == yesterdayDay.get(Calendar.DAY_OF_WEEK)) {
-            Log.v(LOG_TAG, "yesterday, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
+//            Log.v(LOG_TAG, "yesterday, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
             return context.getString(R.string.yesterday);
 
         // all other days, return the day
         } else {
 
             String dayString = targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
-          Log.v(LOG_TAG, "otherwise, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
+//          Log.v(LOG_TAG, "otherwise, the day is " + targetDay.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()));
 //            Log.v(LOG_TAG, "Day is " + dayString);
             return dayString;
 
