@@ -148,30 +148,44 @@ public class ScoresAdapter extends CursorAdapter {
         final ViewHolder viewHolder = (ViewHolder) view.getTag();
 
         // ----------   Common to both views  -----------
-        Log.v(LOG_TAG, "Cursor position: " + cursor.getPosition() + " mSelectView: " + mSelectView );
+        Log.v(LOG_TAG, "Cursor position: " + cursor.getPosition() + " mSelectView: " + mSelectView);
 
         //        final ViewHolder viewHolder = (ViewHolder) view.getTag();
         viewHolder.home_name.setText(cursor.getString(MainScreenFragment.COL_HOME));
         viewHolder.away_name.setText(cursor.getString(MainScreenFragment.COL_AWAY));
 
-        viewHolder.date.setText(cursor.getString(MainScreenFragment.COL_MATCHTIME));
+
+        // Match Time
+        String matchTime = cursor.getString(MainScreenFragment.COL_MATCHTIME);
+        String matchTimeformat = mContext.getString(R.string.match_time_contentdescription);
+
+        viewHolder.date.setText(matchTime);
+        viewHolder.date.setContentDescription(String.format(matchTimeformat, matchTime));
+
+
+        // Score
         viewHolder.mScore.setText(Utilies.getScores(mContext, cursor.getInt(MainScreenFragment.COL_HOME_GOALS), cursor.getInt(MainScreenFragment.COL_AWAY_GOALS)));
 
-
-
         // set contextual ContentDescription for the score
-        String tmpMessage = new StringBuilder(cursor.getString(MainScreenFragment.COL_HOME)).append(' ')
-                .append(context.getString(R.string.team_score_contentdescriptions))
-                .append(cursor.getInt(MainScreenFragment.COL_HOME_GOALS))
-                .append(' ').append('-').append(' ')
-                .append(cursor.getString(MainScreenFragment.COL_AWAY)).append(' ')
-                .append(context.getString(R.string.team_score_contentdescriptions))
-                .append(cursor.getInt(MainScreenFragment.COL_AWAY_GOALS))
-                .toString();
+        String tmpMessage = Utilies.getScoresForContentDescription(mContext,
+                cursor.getString(MainScreenFragment.COL_HOME),
+                cursor.getInt(MainScreenFragment.COL_HOME_GOALS),
+                cursor.getString(MainScreenFragment.COL_AWAY),
+                cursor.getInt(MainScreenFragment.COL_AWAY_GOALS));
 
+//        String tmpMessage = new StringBuilder(cursor.getString(MainScreenFragment.COL_HOME)).append(' ')
+//                .append(context.getString(R.string.team_score_contentdescriptions))
+//                .append(cursor.getInt(MainScreenFragment.COL_HOME_GOALS))
+//                .append(' ').append('-').append(' ')
+//                .append(cursor.getString(MainScreenFragment.COL_AWAY)).append(' ')
+//                .append(context.getString(R.string.team_score_contentdescriptions))
+//                .append(cursor.getInt(MainScreenFragment.COL_AWAY_GOALS))
+//                .toString();
         viewHolder.mScore.setContentDescription(tmpMessage);
 
+        // Match ID
         viewHolder.match_id = cursor.getInt(MainScreenFragment.COL_MATCH_ID);
+
 
         viewHolder.home_crest.setImageResource(Utilies.getTeamCrestByTeamName(cursor.getString(MainScreenFragment.COL_HOME)));
         viewHolder.away_crest.setImageResource(Utilies.getTeamCrestByTeamName(cursor.getString(MainScreenFragment.COL_AWAY)));
@@ -188,13 +202,15 @@ public class ScoresAdapter extends CursorAdapter {
 
                 TextView league = (TextView) view.findViewById(R.id.league_textview);
                 TextView matchday = (TextView) view.findViewById(R.id.matchday_textview);
+
                 Button shareButton = (Button) view.findViewById(R.id.share_button);
+                shareButton.setContentDescription(mContext.getString(R.string.share_action_cd));
 
                 league.setText(Utilies.getLeague(cursor.getInt(MainScreenFragment.COL_LEAGUE)));
                 matchday.setText(Utilies.getMatchDay(cursor.getInt(MainScreenFragment.COL_MATCHDAY), cursor.getInt(MainScreenFragment.COL_LEAGUE)));
 
 
-                // share Button listener
+                // Share Button listener
                 shareButton.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -232,13 +248,17 @@ public class ScoresAdapter extends CursorAdapter {
 
             case VIEW_TYPE_MATCH:
 
-
-
                 // set scores_list_item layoutButton Content Description
-                String matchButtonMessage = new StringBuilder(context.getString(R.string.match_description)).append(' ')
-                        .append(cursor.getString(MainScreenFragment.COL_HOME)).append(' ')
-                        .append(context.getString(R.string.match_conjunction)).append(' ')
-                        .append(cursor.getString(MainScreenFragment.COL_AWAY)).toString();
+                String matchButtonFormat = mContext.getString(R.string.match_description_contentdescription);
+                String matchButtonMessage = String.format(matchButtonFormat,
+                                cursor.getString(MainScreenFragment.COL_HOME),
+                                cursor.getString(MainScreenFragment.COL_AWAY));
+
+
+//                String matchButtonMessage = new StringBuilder(context.getString(R.string.match_description)).append(' ')
+//                        .append(cursor.getString(MainScreenFragment.COL_HOME)).append(' ')
+//                        .append(context.getString(R.string.match_conjunction)).append(' ')
+//                        .append(cursor.getString(MainScreenFragment.COL_AWAY)).toString();
 
 
                 LinearLayout layoutButton = (LinearLayout) view.findViewById(R.id.match_content_description);

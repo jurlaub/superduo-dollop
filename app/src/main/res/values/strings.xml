@@ -43,15 +43,24 @@
 
 <!-- Messages to support accessibility-->
     <string name="empty_list">There is no data on matches scheduled for today.</string>
-    <string name="match_description">This is a match between </string>
-    <string name="match_emptyspace"> </string>
-    <string name="match_conjunction"> and </string>
+
+    <string name="page_contentdescription">This page shows all the matches for %1$s.</string>
+    <string name="match_description_contentdescription">This is a match between %1$s and %2$s.</string>
+
+    <!--<string name="match_description">This is a match between </string>-->
+    <!--<string name="match_emptyspace"> </string>-->
+    <!--<string name="match_conjunction"> and </string>-->
+
+    <string name="team_crest_contentdescription">%1$s team crest.</string>
+
     <string name="team_crest_home">Home Team Crest</string>
     <string name="team_crest_away">Away Team Crest</string>
     <string name="page_day_contentdescription">This page shows all the matches on </string>
 
-    <string name="team_score_contentdescriptions">has a score of</string>
-
+    <string name="match_scores_contentdescription">%1$s has a score of %2$d and %3$s has a score of %4$d.</string>
+    <!--<string name="team_score_contentdescription_v2">The score is %1$d to %2$d, $3$s is </string>-->
+    <string name="no_match_scores_contentdescription">There is currently no score.</string>
+    <string name="match_time_contentdescription">The match starts at %1$s.</string>
 
 
     <string name="data_refresh">Refresh Data</string>
@@ -67,6 +76,7 @@
 
     <!-- MainScreenFragment-->
     <string name="share_action_title">Share Football Scores</string>
+    <string name="share_action_contentdescription">Share football scores</string>
 
 
 </resources>

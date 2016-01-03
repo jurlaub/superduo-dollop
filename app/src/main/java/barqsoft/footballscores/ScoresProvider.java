@@ -140,6 +140,7 @@ public class ScoresProvider extends ContentProvider {
                 int returncount = 0;
                 try {
                     for (ContentValues value : values) {
+                        //Log.v(LOG_TAG, "timevalue: " + value.getAsString(DatabaseContract.ScoresTable.TIME_COL));
                         long _id = db.insertWithOnConflict(DatabaseContract.SCORES_TABLE, null, value,
                                 SQLiteDatabase.CONFLICT_REPLACE);
                         if (_id != -1) {

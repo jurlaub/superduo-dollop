@@ -110,6 +110,27 @@ public class Utilies {
     }
 
 
+    public static String getScoresForContentDescription(Context context, String home, int home_goals, String away, int away_goals) {
+        String messageFormat = context.getString(R.string.match_scores_contentdescription);
+        String message;
+
+        if (home_goals < 0 || away_goals < 0) {
+            message = context.getString(R.string.no_match_scores_contentdescription);
+            return message;
+        }
+
+        message = String.format(messageFormat, home, home_goals, away, away_goals);
+        Log.v(LOG_TAG, "getScoresforCD is " + message);
+
+        return message;
+
+    }
+
+//    public static String getMatchInformationForContentDescription(){
+//
+//    }
+
+
     // Added a number of crests that currently exist in the drawable folder
     public static int getTeamCrestByTeamName(String team_name) {
         if (team_name == null) {

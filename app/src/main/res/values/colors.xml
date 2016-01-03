@@ -76,5 +76,15 @@
     <color name="red13">#FFCACA</color>
     <color name="red14">#FFE4E4</color>
 
+    <color name="widget_title">#4477FF</color>
+    <color name="widget_team_name">#0000BB</color>
+
+    <color name="home_name">@color/football_scores_secondary</color>
+    <color name="away_name">@color/football_scores_secondary</color>
+    
+
+    <color name="football_scores_primary">#4477FF</color>
+    <color name="football_scores_secondary">#0000BB</color>
+
 
 </resources>

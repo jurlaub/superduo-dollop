@@ -109,10 +109,9 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
 
 
-
         // set content description for the page and use the page names.
-        String pageContentDescription = new StringBuilder(getString(R.string.page_day_contentdescription)).append(' ')
-                .append(mPageTitle).toString();
+        String pageCDFormat = getString(R.string.page_day_contentdescription);
+        String pageContentDescription = String.format(pageCDFormat, mPageTitle);
         mRootView.setContentDescription(pageContentDescription);
 //        mRootView.setFocusable(true);
         Log.v(LOG_TAG, "pageContentDescription: " + pageContentDescription);

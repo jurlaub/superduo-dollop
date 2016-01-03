@@ -167,6 +167,8 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
 
 
     private void processJSONdata(String JSONdata, Context mContext, boolean isReal) {
+        Log.v(LOG_TAG, "in ProcessJSONdata");
+
         //JSON data
         // This set of league codes is for the 2015/2016 season. In fall of 2016, they will need to
         // be updated. Feel free to use the codes
@@ -217,6 +219,7 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
 
             //ContentValues to be inserted
             Vector<ContentValues> values = new Vector<ContentValues>(matches.length());
+
             for (int i = 0; i < matches.length(); i++) {
 
                 JSONObject match_data = matches.getJSONObject(i);
@@ -263,6 +266,8 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
                         mDate = new_date.format(parseddate);
                         mTime = mDate.substring(mDate.indexOf(":") + 1);
                         mDate = mDate.substring(0, mDate.indexOf(":"));
+
+                        Log.e(LOG_TAG, "now, mDate " + mDate + " timeString is " + mTime);
 
 
                         if (!isReal) {

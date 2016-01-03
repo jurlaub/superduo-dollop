@@ -75,11 +75,11 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                         null,
                         DatabaseContract.ScoresTable.DATE_COL + " ASC");
 
-                if (data != null) {
-                    Log.v(LOG_TAG, "data count: " + data.getCount());
-                } else {
-                    Log.v(LOG_TAG, "data is null");
-                }
+//                if (data != null) {
+//                    Log.v(LOG_TAG, "data count: " + data.getCount());
+//                } else {
+//                    Log.v(LOG_TAG, "data is null");
+//                }
 
 
                 Binder.restoreCallingIdentity(identityToken);
@@ -121,8 +121,8 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                 String matchScores = Utilies.getScores(getApplicationContext(), homeScore, awayScore);
                 String matchDate = Utilies.getDayName(getApplicationContext(), data.getString(INDEX_SCORES_MATCHDATE));
 //                String matchDate = data.getString(INDEX_SCORES_MATCHDATE);
-                Log.v(LOG_TAG, homeName + " vs " + awayName + " occurred, " + matchDate + " the date: " + data.getString(INDEX_SCORES_MATCHDATE) );
-
+//                Log.v(LOG_TAG, homeName + " vs " + awayName + " occurred, " + matchDate + " the date: " + data.getString(INDEX_SCORES_MATCHDATE) );
+//                Log.v(LOG_TAG, "MatchTime: " + data.getInt(INDEX_SCORES_TIME));
                 // set the values in the widget listview
                 views.setTextViewText(R.id.home_name, homeName);
                 views.setImageViewResource(R.id.home_crest, homeIcon);
@@ -134,7 +134,7 @@ public class DetailWidgetRemoteViewsService extends RemoteViewsService {
                 views.setTextViewText(R.id.match_date, matchDate);
 
 
-                Log.v(LOG_TAG, "view position: " + position);
+//                Log.v(LOG_TAG, "view position: " + position);
                 return views;
             }
 
