@@ -173,14 +173,6 @@ public class ScoresAdapter extends CursorAdapter {
                 cursor.getString(MainScreenFragment.COL_AWAY),
                 cursor.getInt(MainScreenFragment.COL_AWAY_GOALS));
 
-//        String tmpMessage = new StringBuilder(cursor.getString(MainScreenFragment.COL_HOME)).append(' ')
-//                .append(context.getString(R.string.team_score_contentdescriptions))
-//                .append(cursor.getInt(MainScreenFragment.COL_HOME_GOALS))
-//                .append(' ').append('-').append(' ')
-//                .append(cursor.getString(MainScreenFragment.COL_AWAY)).append(' ')
-//                .append(context.getString(R.string.team_score_contentdescriptions))
-//                .append(cursor.getInt(MainScreenFragment.COL_AWAY_GOALS))
-//                .toString();
         viewHolder.mScore.setContentDescription(tmpMessage);
 
         // Match ID
@@ -223,8 +215,6 @@ public class ScoresAdapter extends CursorAdapter {
 
                         mContext.startActivity(Intent.createChooser(shareIntent, mContext.getString(R.string.share_action_title)));
 
-//                        context.startActivity(createShareForecastIntent(viewHolder.home_name.getText() + " "
-//                                + viewHolder.mScore.getText() + " " + viewHolder.away_name.getText() + " "));
                     }
                 });
 //
@@ -254,11 +244,6 @@ public class ScoresAdapter extends CursorAdapter {
                                 cursor.getString(MainScreenFragment.COL_HOME),
                                 cursor.getString(MainScreenFragment.COL_AWAY));
 
-
-//                String matchButtonMessage = new StringBuilder(context.getString(R.string.match_description)).append(' ')
-//                        .append(cursor.getString(MainScreenFragment.COL_HOME)).append(' ')
-//                        .append(context.getString(R.string.match_conjunction)).append(' ')
-//                        .append(cursor.getString(MainScreenFragment.COL_AWAY)).toString();
 
 
                 LinearLayout layoutButton = (LinearLayout) view.findViewById(R.id.match_content_description);

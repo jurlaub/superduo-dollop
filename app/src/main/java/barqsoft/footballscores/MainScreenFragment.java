@@ -26,8 +26,6 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
     public static final int SCORES_LOADER = 0;
 //
-//    private SharedPreferences.OnSharedPreferenceChangeListener mPreferenceListener;
-//    private SharedPreferences mPreference;
 
     public static final int DEFAULT_DETAIL_VIEW = -1;
 
