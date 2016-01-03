@@ -18,7 +18,7 @@
 
     <dimen name="widget_detail_team_names">12sp</dimen>
     <dimen name="widget_detail_match_date">15sp</dimen>
-    <dimen name="widget_detail_match_score">15sp</dimen>
+    <dimen name="widget_detail_match_score">20sp</dimen>
 
 
 
