@@ -73,6 +73,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public MainScreenFragment() {
     }
 
+    // ERROR - (at least its a performance hit)
     // called each time the fragment's onCreateView is called - way more then is necessary
 //    private void update_scores() {
 //        Intent service_start = new Intent(getActivity(), MyFetchService.class);
@@ -133,6 +134,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         mAdapter.mDetail_match_id = MainActivity.selected_match_id;
 
 
+//        Possible ERROR in how this was set up
         mScoresList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -153,9 +155,9 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
                 } else {
                     mAdapter.mSelectView = position;
-                    Log.v(LOG_TAG, "mAdapter.mSelectView should be " + position + " set to " + mAdapter.mSelectView);
+//                    Log.v(LOG_TAG, "mAdapter.mSelectView should be " + position + " set to " + mAdapter.mSelectView);
                     Cursor cursor = (Cursor) parent.getItemAtPosition(position);
-                    Log.v(LOG_TAG, cursor.getString(COL_HOME) + " vs " + cursor.getString(COL_AWAY) );
+//                    Log.v(LOG_TAG, cursor.getString(COL_HOME) + " vs " + cursor.getString(COL_AWAY) );
                 }
 
 
@@ -213,6 +215,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
     }
 
+//    ERROR was in this method. The cursor would be direct to skip around unnecessarily.
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         //Log.v(FetchScoreTask.LOG_TAG,"loader finished");
