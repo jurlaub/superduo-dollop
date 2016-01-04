@@ -74,8 +74,10 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
     // used by ScoresPagerActivity to generate a new fragment.
     public static MainScreenFragment newInstance(String targetDate) {
+        Log.v(LOG_TAG, "newInstance with a targetDate: " + targetDate );
+
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_SCORES_DATE, targetDate);
+        args.putString(EXTRA_SCORES_DATE, targetDate);
 
         MainScreenFragment fragment = new MainScreenFragment();
         fragment.setArguments(args);
@@ -120,15 +122,24 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String targetDate;
+
+        targetDate = getArguments().getString(EXTRA_SCORES_DATE);
+
+        setFragmentDate(targetDate);
+        setPageTitle(Utilies.getDayName(getActivity(), targetDate));
 
 //        if (savedInstanceState != null) {
-//            String targetDate = (String)getArguments().getSerializable(EXTRA_SCORES_DATE);
+//             targetDate = getArguments().getString(EXTRA_SCORES_DATE);
 //
-//            this.setFragmentDate(targetDate);
-//            this.setPageTitle(Utilies.getDayName(getActivity(), targetDate));
+//            setFragmentDate(targetDate);
+//            setPageTitle(Utilies.getDayName(getActivity(), targetDate));
 //
 //        } else {
 //            Log.v(LOG_TAG, "bundle is empty, probably will crash");
+//
+//
+//
 //        }
 
     }
@@ -170,7 +181,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
 //        getLoaderManager().initLoader(SCORES_LOADER, null, this);
         Log.v(LOG_TAG, "before mAdapter.mDetail_match_id" + mAdapter.mDetail_match_id);
-        mAdapter.mDetail_match_id = MainActivity.selected_match_id;
+//        mAdapter.mDetail_match_id = MainActivity.selected_match_id;
 
 
 //        Possible ERROR in how this was set up

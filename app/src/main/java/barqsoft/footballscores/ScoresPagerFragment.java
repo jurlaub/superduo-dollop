@@ -3,26 +3,25 @@ package barqsoft.footballscores;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import barqsoft.footballscores.sync.ScoresSyncAdapter;
-
 /**
  * Created by dev on 1/3/16.
- *
- *  portions from chapter 11 of Android Progamming: the Big Nerd Ranch Guide
  */
-public class ScoresPagerActivity extends FragmentActivity {
-    private static final String LOG_TAG = ScoresPagerActivity.class.getSimpleName();
+public class ScoresPagerFragment extends Fragment {
+
+    private static final String LOG_TAG = ScoresPagerFragment.class.getSimpleName();
 
     private ViewPager mViewPager;
     private ArrayList<String> mDays;  // Strings used to generate the day page view.
@@ -34,9 +33,9 @@ public class ScoresPagerActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pager_fragment);
+//        setContentView(R.layout.pager_fragment);
 
-        ScoresSyncAdapter.initializeSyncAdapter(this);
+//        ScoresSyncAdapter.initializeSyncAdapter(this);
 //
 //        View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
 //        mPagerHandler = (ViewPager) rootView.findViewById(R.id.pager);
@@ -44,29 +43,41 @@ public class ScoresPagerActivity extends FragmentActivity {
 //        mViewPager = new ViewPager(this);
 //        mViewPager.setId(R.id.viewPager);
 
-        mViewPager = new ViewPager(this);
-        mViewPager.setId(R.id.pager);
-        setContentView(mViewPager);
+//        mViewPager = new ViewPager(this);
+//        mViewPager.setId(R.id.pager);
+//        setContentView(mViewPager);
 
         // generate day - dates to reference for MainScreenFragments
+//        mDays = getListOfDaysToDisplay();
+
+//        FragmentManager fm = getSupportFragmentManager();
+//        MyPageAdapter myPageAdapter = new MyPageAdapter(fm);
+//
+//
+//        mViewPager.setAdapter(myPageAdapter);
+//        mViewPager.setCurrentItem(START_DAY);
+
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
+        mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
+
         mDays = getListOfDaysToDisplay();
 
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getChildFragmentManager();
         MyPageAdapter myPageAdapter = new MyPageAdapter(fm);
 
 
         mViewPager.setAdapter(myPageAdapter);
         mViewPager.setCurrentItem(START_DAY);
 
-
-
+        return rootView;
     }
-
-
-
-
-
-
 
 
 
@@ -125,7 +136,7 @@ public class ScoresPagerActivity extends FragmentActivity {
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
-            return getDayName(getApplicationContext(), System.currentTimeMillis() + ((position - 2) * 86400000));
+            return getDayName(getActivity(), System.currentTimeMillis() + ((position - 2) * 86400000));
         }
 
 
@@ -164,6 +175,7 @@ public class ScoresPagerActivity extends FragmentActivity {
 
 
     }
+
 
 
 

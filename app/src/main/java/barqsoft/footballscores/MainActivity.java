@@ -32,10 +32,16 @@ public class MainActivity extends ActionBarActivity  {
         setContentView(R.layout.activity_main);
         Log.d(LOG_TAG, "Reached MainActivity onCreate");
 
+//        if (savedInstanceState == null) {
+//            my_main = new PagerFragment();
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.container, my_main)
+//                    .commit();
+//        }
         if (savedInstanceState == null) {
-            my_main = new PagerFragment();
+             ScoresPagerFragment scoresPagerFragment = new ScoresPagerFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, my_main)
+                    .add(R.id.container, scoresPagerFragment)
                     .commit();
         }
 
