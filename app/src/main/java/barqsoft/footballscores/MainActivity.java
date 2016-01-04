@@ -39,9 +39,9 @@ public class MainActivity extends ActionBarActivity  {
 //                    .commit();
 //        }
         if (savedInstanceState == null) {
-             ScoresPagerFragment scoresPagerFragment = new ScoresPagerFragment();
+             PagerFragment pagerFragment = new PagerFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, scoresPagerFragment)
+                    .add(R.id.container, pagerFragment)
                     .commit();
         }
 

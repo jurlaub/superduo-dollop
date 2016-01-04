@@ -2,7 +2,6 @@ package barqsoft.footballscores;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -14,95 +13,122 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by yehya khaled on 2/27/2015.
  */
 public class PagerFragment extends Fragment {
-    public static final String LOG_TAG = PagerFragment.class.getSimpleName();
 
-    public static final int NUM_PAGES = 5;
-    public ViewPager mPagerHandler;
-    private MyPageAdapter mPagerAdapter;
-    private MainScreenFragment[] mViewFragments = new MainScreenFragment[5];
+    private static final String LOG_TAG = PagerFragment.class.getSimpleName();
+
+    private ViewPager mViewPager;
+    private ArrayList<String> mDays;  // Strings used to generate the day page view.
+
+    private static final int NUM_PAGES = 5;
+    private static final int START_DAY = 2;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.pager_fragment);
+
+//        ScoresSyncAdapter.initializeSyncAdapter(this);
+//
+//        View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
+//        mPagerHandler = (ViewPager) rootView.findViewById(R.id.pager);
+
+//        mViewPager = new ViewPager(this);
+//        mViewPager.setId(R.id.viewPager);
+
+//        mViewPager = new ViewPager(this);
+//        mViewPager.setId(R.id.pager);
+//        setContentView(mViewPager);
+
+        // generate day - dates to reference for MainScreenFragments
+//        mDays = getListOfDaysToDisplay();
+
+//        FragmentManager fm = getSupportFragmentManager();
+//        MyPageAdapter myPageAdapter = new MyPageAdapter(fm);
+//
+//
+//        mViewPager.setAdapter(myPageAdapter);
+//        mViewPager.setCurrentItem(START_DAY);
+
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
-        mPagerHandler = (ViewPager) rootView.findViewById(R.id.pager);
-        mPagerAdapter = new MyPageAdapter(getChildFragmentManager());
+        mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
+
+        mDays = getListOfDaysToDisplay();
+
+        FragmentManager fm = getChildFragmentManager();
+        MyPageAdapter myPageAdapter = new MyPageAdapter(fm);
 
 
-
-        for (int i = 0; i < NUM_PAGES; i++) {
-            Date fragmentDate = new Date(System.currentTimeMillis() + ((i - 2) * 86400000));
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            mViewFragments[i] = new MainScreenFragment();
-            mViewFragments[i].setFragmentDate(dateFormat.format(fragmentDate));
-
-            // set title page for fragment layout content description
-            mViewFragments[i].setPageTitle(mPagerAdapter.getPageTitle(i).toString());
-//            mViewFragments[i].getView().setContentDescription();
-
-
-        }
-
-        mPagerHandler.setAdapter(mPagerAdapter);
-        mPagerHandler.setCurrentItem(MainActivity.current_fragment);
-
-
+        mViewPager.setAdapter(myPageAdapter);
+        mViewPager.setCurrentItem(START_DAY);
 
         return rootView;
     }
 
-    @Override
-    public void onStart(){
-        super.onStart();
-        Log.v(LOG_TAG, "onStart");
 
+
+
+
+    // This method generates a list of the days used for referencing the data stored in the Cursor.
+    // the strings generated match the date string stored in the cursor.
+    private ArrayList<String> getListOfDaysToDisplay() {
+        ArrayList<String> tmpList = new ArrayList<>();
+
+        for (int i = 0; i < NUM_PAGES; i++) {
+            Date fragmentDate = new Date(System.currentTimeMillis() + ((i - 2) * 86400000));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            String tmpDate = dateFormat.format(fragmentDate);
+            Log.v(LOG_TAG, "date: " + tmpDate);
+
+            // add date String entry to mDays list;
+            tmpList.add(tmpDate);
+
+        }
+
+        Log.v(LOG_TAG, "mDays count is " + tmpList.size());
+
+        return tmpList;
     }
-
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        Log.v(LOG_TAG, "onResume");
-
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.v(LOG_TAG, "onPause");
-
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.v(LOG_TAG, "onStop");
-
-    }
-
 
 
     private class MyPageAdapter extends FragmentStatePagerAdapter {
+
+
+        public MyPageAdapter(FragmentManager fm) {
+
+            super(fm);
+        }
+
         @Override
         public Fragment getItem(int i) {
-//            Log.v(LOG_TAG,"mViewFragment getItem - date:" + mViewFragments[i].getFragmentDate());
-//            Log.v(LOG_TAG, "mViewFragment getItem - pageTitle: " + this.getPageTitle(i));
-            return mViewFragments[i];
+            Log.v(LOG_TAG, "MyPageAdapter: position " + i);
+            String targetDay = mDays.get(i);
+            MainScreenFragment newFragment = MainScreenFragment.newInstance(targetDay);
+            Log.v(LOG_TAG, "newFragment pageTitle is set to " + newFragment.getFragmentDate());
+
+            return newFragment;
         }
+
+
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
-        }
-
-        public MyPageAdapter(FragmentManager fm) {
-            super(fm);
+            return mDays.size();
         }
 
 
@@ -149,5 +175,8 @@ public class PagerFragment extends Fragment {
 
 
     }
+
+
+
 
 }
