@@ -16,6 +16,16 @@ import java.util.Date;
 
 /**
  * Created by yehya khaled on 2/27/2015.
+ *
+ * ERROR
+ *      mostly rewritten - A good portion of the original was a problem
+ *      instead of generating an Array or MainScreenFragments and using that data For the FragmentStatePagerAdapter
+ *      changed to
+ *      generating an array of date strings that are used to create the MainScreenFragments
+ *
+ *      without this change, a rotation would cause the app to crash - the MainScreenFragment would
+ *      not have the necessary String for the date to pull data from the Database.
+ *
  */
 public class PagerFragment extends Fragment {
 
@@ -40,6 +50,7 @@ public class PagerFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
 
+        // Generate list of days that are maintained in order to create the MainScreenFragments
         mDays = getListOfDaysToDisplay();
 
         FragmentManager fm = getChildFragmentManager();
@@ -49,10 +60,17 @@ public class PagerFragment extends Fragment {
         mViewPager.setAdapter(myPageAdapter);
         mViewPager.setCurrentItem(START_DAY);
 
+
         return rootView;
     }
 
 
+
+//    @Override
+//    public void onPause(){
+//        super.onPause();
+//
+//    }
 
 
 
@@ -66,7 +84,7 @@ public class PagerFragment extends Fragment {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             String tmpDate = dateFormat.format(fragmentDate);
-            Log.v(LOG_TAG, "date: " + tmpDate);
+//            Log.v(LOG_TAG, "date: " + tmpDate);
 
             // add date String entry to mDays list;
             tmpList.add(tmpDate);
@@ -87,6 +105,8 @@ public class PagerFragment extends Fragment {
             super(fm);
         }
 
+        // the item position is used to obtain the date String in the mDays arrayList. This is used to
+        // generate a new MainScreenFragment
         @Override
         public Fragment getItem(int i) {
             Log.v(LOG_TAG, "MyPageAdapter: position " + i);
@@ -113,10 +133,14 @@ public class PagerFragment extends Fragment {
 
             return Utilies.getDayName(getActivity(), tmpDate);
 
+//            REFACTOR - only need to calculate time when the PagerFragment mDays is generated.
 //            return getDayName(getActivity(), System.currentTimeMillis() + ((position - 2) * 86400000));
         }
 
 
+
+//        REFACTORED - using the new one in Utilies. The new one uses Calendar instead of what may
+//                      be or soon to be depreciated classes
 
 //        public String getDayName(Context context, long dateInMillis) {
 //            // If the date is today, return the localized version of "Today" instead of the actual

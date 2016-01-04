@@ -2,8 +2,10 @@ package barqsoft.footballscores;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.view.View;
 
 import java.sql.Date;
@@ -13,6 +15,7 @@ import java.util.Locale;
 
 /**
  * Created by yehya khaled on 3/3/2015.
+ *
  */
 public class Utilies {
 
@@ -73,7 +76,7 @@ public class Utilies {
 
 
 
-    // check if the layout order is RTL
+    // check if the layout order is RTL.
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private static boolean isLayoutRTL(Context context){
         Configuration config =  context.getResources().getConfiguration();
@@ -107,6 +110,7 @@ public class Utilies {
     }
 
 
+//    Generate a Content Description message
     public static String getScoresForContentDescription(Context context, String home, int home_goals, String away, int away_goals) {
         String messageFormat = context.getString(R.string.match_scores_contentdescription);
         String message;
@@ -123,9 +127,6 @@ public class Utilies {
 
     }
 
-//    public static String getMatchInformationForContentDescription(){
-//
-//    }
 
 
     // Added a number of crests that currently exist in the drawable folder
@@ -260,25 +261,33 @@ public class Utilies {
 
     }
 
-//    public static void setMatchDetailViewStatusPreference(Context context, int matchEntry, String fragmentDate) {
-//        Log.v(LOG_TAG, "matchDetail set to " + matchEntry);
-//
-//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-//        SharedPreferences.Editor editor = sp.edit();
-//
-//        editor.putInt(fragmentDate, matchEntry);
-//        editor.apply();
-//
-//    }
-//
-//    public static int getMatchDetailViewStatusPreference(Context context, String fragmentDate) {
-//
-//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-//        int matchEntry = sp.getInt(fragmentDate, MainScreenFragment.DEFAULT_DETAIL_VIEW);
-//
-//        return matchEntry;
-//    }
 
+
+    //create a specific key used for the ElementKey  for a specificDate
+    private static String getElementKey(Context context, String specificDate){
+        return context.getString(R.string.element_is_expanded_key) + specificDate;
+    }
+
+    // sets whether one element found on a ScoresApapter is expanded or not, and saves that element.
+    // should send the String / SQL representation of the date "XXXX-XX-XX"
+    public static void setElementExpanded(Context context, int selectView, String specificDate){
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+
+        editor.putInt(getElementKey(context, specificDate), selectView);
+        editor.apply();
+    }
+
+
+    // obtains the expanded key if saved.
+    // should send the String / SQL representation of the date "XXXX-XX-XX"
+    public static int getElementExpanded(Context context, String specificDate) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        int selectView = sp.getInt(getElementKey(context, specificDate), ScoresAdapter.EXPANDED_ELEMENT_DEFAULT);
+
+        return  selectView;
+    }
 
 
 }

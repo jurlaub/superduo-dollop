@@ -38,6 +38,9 @@ import barqsoft.footballscores.R;
  *
  *  some of the sync code from SunshineSyncAdapter
  *
+ *
+ *  Replaced the original way of using an IntentService
+ *
  */
 public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = ScoresSyncAdapter.class.getSimpleName();
@@ -237,7 +240,8 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
                         League.equals(SERIE_A) ||
                         League.equals(BUNDESLIGA1) ||
                         League.equals(BUNDESLIGA2) ||
-                        League.equals(CHAMPIONS_LEAGUE))  {
+                        League.equals(CHAMPIONS_LEAGUE)||
+                        League.equals(PRIMERA_LIGA))  {
 //                    ||
 //                    League.equals(DUMMYLEAGUE))
 

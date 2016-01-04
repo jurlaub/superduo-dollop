@@ -9,35 +9,36 @@ import android.view.MenuItem;
 
 import barqsoft.footballscores.sync.ScoresSyncAdapter;
 
+
+
+
+
 public class MainActivity extends ActionBarActivity  {
 
-    public static int selected_match_id;
-    public static int current_fragment = 2;
+//    ERROR - (or preference) relocated to ScoresAdapter and PagerFragment
+//    public static int selected_match_id;
+//    public static int current_fragment = 2;
     public static String LOG_TAG = "MainActivity";
-    private final String SAVE_TAG = "Save Test";
-    private PagerFragment my_main;
 
-    private static final String PAGER_CURRENT = "Pager_Current";
-    private static final String SELECTED_MATCH = "Selected_match";
-    private static final String PAGERFRAGMENT_MAIN = "my_main";
+//    Unnecessary
+//    private final String SAVE_TAG = "Save Test";
+//    private PagerFragment my_main;
+
+//    ERROR - (or preference) ViewPager handles most position preferences and created others to replace these
+//    private static final String PAGER_CURRENT = "Pager_Current";
+//    private static final String SELECTED_MATCH = "Selected_match";
+//    private static final String PAGERFRAGMENT_MAIN = "my_main";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // called once when the app is opened
-//        update_scores();
 
         setContentView(R.layout.activity_main);
         Log.d(LOG_TAG, "Reached MainActivity onCreate");
 
-//        if (savedInstanceState == null) {
-//            my_main = new PagerFragment();
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.container, my_main)
-//                    .commit();
-//        }
+
         if (savedInstanceState == null) {
              PagerFragment pagerFragment = new PagerFragment();
             getSupportFragmentManager().beginTransaction()
@@ -46,39 +47,12 @@ public class MainActivity extends ActionBarActivity  {
         }
 
 
+        // initialize the syncadapter which will obtain the data from the Football API
         ScoresSyncAdapter.initializeSyncAdapter(this);
 
     }
 
 
-    @Override
-    public void onStart(){
-        super.onStart();
-        Log.v(LOG_TAG, "onStart");
-
-    }
-
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        Log.v(LOG_TAG, "onResume");
-
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.v(LOG_TAG, "onPause");
-
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.v(LOG_TAG, "onStop");
-
-    }
 
 
     @Override
@@ -104,13 +78,15 @@ public class MainActivity extends ActionBarActivity  {
 
         // refesh data from web
         } else if (id == R.id.action_refresh) {
-//            update_scores();
+
             ScoresSyncAdapter.syncImmediately(this);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+
+//    ERROR -  attempting to save data or something. Replaced with ViewPager and other SharedPreference
 //    @Override
 //    protected void onSaveInstanceState(Bundle outState) {
 //        Log.v(SAVE_TAG, "will save");
@@ -124,6 +100,7 @@ public class MainActivity extends ActionBarActivity  {
 //        super.onSaveInstanceState(outState);
 //    }
 //
+    //    ERROR -  attempting to save data or something. Replaced with ViewPager and other SharedPreference
 //    @Override
 //    protected void onRestoreInstanceState(Bundle savedInstanceState) {
 //        Log.v(SAVE_TAG, "will retrive");
@@ -140,13 +117,7 @@ public class MainActivity extends ActionBarActivity  {
 //
 
 
-//    // moved here to enhance performance.
-//    private void update_scores() {
-//        Intent service_start = new Intent(this, MyFetchService.class);
-//        this.startService(service_start);
-//        Log.v(LOG_TAG, "update_scores called");
-//
-//    }
+
 
 
 }

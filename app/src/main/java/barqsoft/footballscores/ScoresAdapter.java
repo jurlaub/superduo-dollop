@@ -26,10 +26,12 @@ public class ScoresAdapter extends CursorAdapter {
     // ---!! must change if more views are added !!----
     private static final int VIEW_TYPE_COUNT = 2;
 
+    public static final int EXPANDED_ELEMENT_DEFAULT = -1;
+
     public int mDetail_match_id = 0;
 
 
-    public int mSelectView = -1;
+    public int mSelectView;
     private String mStringDate;
 
 
@@ -41,6 +43,17 @@ public class ScoresAdapter extends CursorAdapter {
     private MainScreenFragment mMainScreenFragment;
 
 
+
+/*
+   ERROR  - formerly found in its own public class moved here
+            While this may not have been a problem - or there may have been a different way to fix
+            the problem, By moving it here and making it a static class removed the problem where:
+
+   ERROR - EVERY 5TH ENTRY Problem
+            Every 5th match/entry would start changing as the user scrolled through the list. Its as
+            if it was on its own cycle. I beleive the problem was that as the views were recycled the
+            ViewHolder were not being recycled at the same time.
+    */
 
     public static class ViewHolder {
         public TextView home_name;
@@ -80,6 +93,8 @@ public class ScoresAdapter extends CursorAdapter {
         this.mMainScreenFragment = mainScreenFragment;
 
 
+        this.mSelectView = EXPANDED_ELEMENT_DEFAULT;
+
         Log.v(LOG_TAG, "mSelectView: " + mSelectView);
 
     }
@@ -98,6 +113,7 @@ public class ScoresAdapter extends CursorAdapter {
         // if the detail view assigned in MainScreenFragement matches the position
         // then use the detail view. Otherwise use the match view
         if (position == mSelectView) {
+
             return VIEW_TYPE_DETAIL;
         }
 
@@ -107,6 +123,13 @@ public class ScoresAdapter extends CursorAdapter {
 
 
 
+    public int getmSelectView(){
+        return mSelectView;
+    }
+
+    public void setmSelectView(int val) {
+        mSelectView = val;
+    }
 
 
     @Override
@@ -190,6 +213,7 @@ public class ScoresAdapter extends CursorAdapter {
 
         switch (viewType) {
 
+//            This is used for the detailed (i.e. expanded) view
             case VIEW_TYPE_DETAIL:
 
                 TextView league = (TextView) view.findViewById(R.id.league_textview);
@@ -226,7 +250,7 @@ public class ScoresAdapter extends CursorAdapter {
                     public void onClick(View v) {
                         Log.v(LOG_TAG, "inside the detailLayout view");
 
-                        mSelectView = -1;
+                        mSelectView = EXPANDED_ELEMENT_DEFAULT;
 
                         // reset the data
                         mMainScreenFragment.refreshData();
@@ -236,6 +260,8 @@ public class ScoresAdapter extends CursorAdapter {
 
                 break;
 
+
+//            This is used for non-expanded version
             case VIEW_TYPE_MATCH:
 
                 // set scores_list_item layoutButton Content Description

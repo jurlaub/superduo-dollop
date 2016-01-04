@@ -129,18 +129,6 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         setFragmentDate(targetDate);
         setPageTitle(Utilies.getDayName(getActivity(), targetDate));
 
-//        if (savedInstanceState != null) {
-//             targetDate = getArguments().getString(EXTRA_SCORES_DATE);
-//
-//            setFragmentDate(targetDate);
-//            setPageTitle(Utilies.getDayName(getActivity(), targetDate));
-//
-//        } else {
-//            Log.v(LOG_TAG, "bundle is empty, probably will crash");
-//
-//
-//
-//        }
 
     }
 
@@ -149,7 +137,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
 
-//      Called too many times when placed in this location
+//      ERROR Called too many times when placed in this location
 //        update_scores();
 
         Log.v(LOG_TAG, "onCreateView date:" + mFragmentDate);
@@ -163,7 +151,6 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         String pageCDFormat = getString(R.string.page_day_contentdescription);
         String pageContentDescription = String.format(pageCDFormat, mPageTitle);
         mRootView.setContentDescription(pageContentDescription);
-//        mRootView.setFocusable(true);
         Log.v(LOG_TAG, "pageContentDescription: " + pageContentDescription);
 
 
@@ -179,9 +166,11 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
         mScoresList.setAdapter(mAdapter);
 
-//        getLoaderManager().initLoader(SCORES_LOADER, null, this);
+//  ERROR - was only being called once
+// getLoaderManager().initLoader(SCORES_LOADER, null, this);
         Log.v(LOG_TAG, "before mAdapter.mDetail_match_id" + mAdapter.mDetail_match_id);
-//        mAdapter.mDetail_match_id = MainActivity.selected_match_id;
+//  ERROR -
+// mAdapter.mDetail_match_id = MainActivity.selected_match_id;
 
 
 //        Possible ERROR in how this was set up
@@ -263,9 +252,11 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public void onResume(){
         super.onResume();
 
-        checkFagmentDate("onResume");
-        Log.v(LOG_TAG, "onResume");
-//        Log.v(LOG_TAG, "onResume date: " + mFragmentDate);
+//        checkFagmentDate("onResume");
+
+        // set the SelectView to the saved preference - default is -1
+        mAdapter.setmSelectView(Utilies.getElementExpanded(getActivity(), mFragmentDate));
+
         restartLoader();
 
     }
@@ -273,11 +264,17 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     @Override
     public void onPause(){
         super.onPause();
-//        Log.v(LOG_TAG, "onPause date: " + mFragmentDate);
+
 
         checkFagmentDate("onPause");
         Log.v(LOG_TAG, "onPause");
+
+        Utilies.setElementExpanded(getActivity(), mAdapter.getmSelectView(), mFragmentDate);
+
+
     }
+
+
 
 //    ERROR was in this method. The cursor would be direct to skip around unnecessarily.
     @Override
