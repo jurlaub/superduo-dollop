@@ -85,6 +85,17 @@
 
 
     <string name="football_scores_hashtag">#Football_Scores</string>
+    
 
+
+    <!-- to preserve app state -->
+    <string name="main_screen_fragment_key" translatable="false">main_screen_fragment_key</string>
+    <string name="main_screen_fragment_default">@string/today</string>
+
+    <string name="match_of_the_day_key" translatable="false">match_of_the_day_key</string>
+    <string name="match_of_the_day_default" translatable="false">0</string>
+
+    <string name="element_is_expanded_key" translatable="false">expanded_element</string>
+    <string name="element_is_expanded_default" translatable="false">-1</string>
 
 </resources>
