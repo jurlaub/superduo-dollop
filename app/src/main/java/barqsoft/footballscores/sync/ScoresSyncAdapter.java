@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.Vector;
 
+import barqsoft.footballscores.API;
 import barqsoft.footballscores.data.DatabaseContract;
 import barqsoft.footballscores.R;
 
@@ -95,7 +96,7 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
             URL fetch = new URL(fetch_build.toString());
             m_connection = (HttpURLConnection) fetch.openConnection();
             m_connection.setRequestMethod("GET");
-            m_connection.addRequestProperty("X-Auth-Token", getContext().getString(R.string.api_key));
+            m_connection.addRequestProperty("X-Auth-Token", API.API_KEY);
             m_connection.connect();
 
             // Read the input stream into a String
