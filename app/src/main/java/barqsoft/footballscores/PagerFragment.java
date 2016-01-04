@@ -1,12 +1,10 @@
 package barqsoft.footballscores;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,38 +24,13 @@ public class PagerFragment extends Fragment {
     private ViewPager mViewPager;
     private ArrayList<String> mDays;  // Strings used to generate the day page view.
 
-    private static final int NUM_PAGES = 5;
-    private static final int START_DAY = 2;
+    private static final int NUM_PAGES = 5;     // total number of days to display
+    private static final int START_DAY = 2;     // initial position to show the user in the array of days
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.pager_fragment);
-
-//        ScoresSyncAdapter.initializeSyncAdapter(this);
-//
-//        View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
-//        mPagerHandler = (ViewPager) rootView.findViewById(R.id.pager);
-
-//        mViewPager = new ViewPager(this);
-//        mViewPager.setId(R.id.viewPager);
-
-//        mViewPager = new ViewPager(this);
-//        mViewPager.setId(R.id.pager);
-//        setContentView(mViewPager);
-
-        // generate day - dates to reference for MainScreenFragments
-//        mDays = getListOfDaysToDisplay();
-
-//        FragmentManager fm = getSupportFragmentManager();
-//        MyPageAdapter myPageAdapter = new MyPageAdapter(fm);
-//
-//
-//        mViewPager.setAdapter(myPageAdapter);
-//        mViewPager.setCurrentItem(START_DAY);
-
-
 
     }
 
@@ -136,42 +109,46 @@ public class PagerFragment extends Fragment {
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
-            return getDayName(getActivity(), System.currentTimeMillis() + ((position - 2) * 86400000));
+            String tmpDate = mDays.get(position);
+
+            return Utilies.getDayName(getActivity(), tmpDate);
+
+//            return getDayName(getActivity(), System.currentTimeMillis() + ((position - 2) * 86400000));
         }
 
 
 
-        public String getDayName(Context context, long dateInMillis) {
-            // If the date is today, return the localized version of "Today" instead of the actual
-            // day name.
-
-            Time t = new Time();
-            t.setToNow();
-
-            int julianDay = Time.getJulianDay(dateInMillis, t.gmtoff);
-            int currentJulianDay = Time.getJulianDay(System.currentTimeMillis(), t.gmtoff);
-
-            if (julianDay == currentJulianDay) {
-                return context.getString(R.string.today);
-
-            } else if (julianDay == currentJulianDay + 1) {
-                return context.getString(R.string.tomorrow);
-
-            } else if (julianDay == currentJulianDay - 1) {
-                return context.getString(R.string.yesterday);
-
-            } else {
-                Time time = new Time();
-                time.setToNow();
-
-                // Otherwise, the format is just the day of the week (e.g "Wednesday".
-                SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
-                return dayFormat.format(dateInMillis);
-
-            }
-        }
-
-
+//        public String getDayName(Context context, long dateInMillis) {
+//            // If the date is today, return the localized version of "Today" instead of the actual
+//            // day name.
+//
+//            Time t = new Time();
+//            t.setToNow();
+//
+//            int julianDay = Time.getJulianDay(dateInMillis, t.gmtoff);
+//            int currentJulianDay = Time.getJulianDay(System.currentTimeMillis(), t.gmtoff);
+//
+//            if (julianDay == currentJulianDay) {
+//                return context.getString(R.string.today);
+//
+//            } else if (julianDay == currentJulianDay + 1) {
+//                return context.getString(R.string.tomorrow);
+//
+//            } else if (julianDay == currentJulianDay - 1) {
+//                return context.getString(R.string.yesterday);
+//
+//            } else {
+//                Time time = new Time();
+//                time.setToNow();
+//
+//                // Otherwise, the format is just the day of the week (e.g "Wednesday".
+//                SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
+//                return dayFormat.format(dateInMillis);
+//
+//            }
+//        }
+//
+//
 
 
     }
