@@ -75,13 +75,16 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
 
 
         //Creating fetch URL
-        final String BASE_URL = "http://api.football-data.org/alpha/fixtures"; //Base URL
+//        final String BASE_URL = "http://api.football-data.org/alpha/fixtures"; //Base URL
+        final String BASE_URL = "http://api.football-data.org/v1/fixtures"; //Base URL
         final String QUERY_TIME_FRAME = "timeFrame"; //Time Frame parameter to determine days
         //final String QUERY_MATCH_DAY = "matchday";
 
         Uri fetch_build = Uri.parse(BASE_URL).buildUpon().
                 appendQueryParameter(QUERY_TIME_FRAME, timeFrame).build();
-        //Log.v(LOG_TAG, "The url we are looking at is: "+fetch_build.toString()); //log spam
+        Log.v(LOG_TAG, "The url we are looking at is: "+ fetch_build.toString()); //log spam
+
+
 
         HttpURLConnection m_connection = null;
         BufferedReader reader = null;
@@ -190,9 +193,10 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
         final String EREDIVISIE = "404";
         final String CHAMPIONS_LEAGUE = "405";
 
-
-        final String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
-        final String MATCH_LINK = "http://api.football-data.org/alpha/fixtures/";
+        final String SEASON_LINK = "http://api.football-data.org/v1/soccerseasons/";
+        final String MATCH_LINK = "http://api.football-data.org/v1/fixtures/";
+//        final String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
+//        final String MATCH_LINK = "http://api.football-data.org/alpha/fixtures/";
         final String FIXTURES = "fixtures";
         final String LINKS = "_links";
         final String SOCCER_SEASON = "soccerseason";
@@ -272,7 +276,7 @@ public class ScoresSyncAdapter extends AbstractThreadedSyncAdapter {
                         mTime = mDate.substring(mDate.indexOf(":") + 1);
                         mDate = mDate.substring(0, mDate.indexOf(":"));
 
-                        Log.e(LOG_TAG, "now, mDate " + mDate + " timeString is " + mTime);
+                        Log.v(LOG_TAG, "now, mDate " + mDate + " timeString is " + mTime);
 
 
                         if (!isReal) {
